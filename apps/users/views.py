@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from .forms import CustomUserCreation
-
 # Create your views here.
 
 
@@ -9,8 +8,7 @@ def register(request):
         register_form = CustomUserCreation(request.POST)
         if register_form.is_valid():
             register_form.save()
-            return redirect('home')
+            return redirect('login')
     else:
-        register_form = CustomUserCreation()
-
-    return render(request, 'users/register_login.html', context={'form': register_form, 'action': 'Register'})
+        register_form = CustomUserCreation(label_suffix='')
+    return render(request, 'users/register.html', context={'form': register_form})

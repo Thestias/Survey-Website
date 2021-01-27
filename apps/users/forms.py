@@ -1,11 +1,26 @@
 from django import forms
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+
+input_form_appearance = 'block mb-8 mt-2 shadow appearance-none border rounded py-2 px-3 text-grey-darker'
 
 
 class CustomUserCreation(UserCreationForm):
-    email = forms.EmailField(label='Email')
-    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs.update({'class': input_form_appearance})
+        self.fields['password1'].widget.attrs.update({'class': input_form_appearance})
+        self.fields['password2'].widget.attrs.update({'class': input_form_appearance})
+
+    email = forms.EmailField(label='Email', widget=forms.TextInput(attrs={'class': input_form_appearance}))
+
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2']
+
+
+class CustomAuthenticationForm(AuthenticationForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs.update({'class': input_form_appearance})
+        self.fields['password'].widget.attrs.update({'class': input_form_appearance})

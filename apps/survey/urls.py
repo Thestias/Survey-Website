@@ -1,8 +1,6 @@
-from django.contrib import admin
 from django.urls import path
-from django.contrib.auth import views as auth_views
 from . import views
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('create_survey/', views.create_survey, name='create_survey'),
 ]

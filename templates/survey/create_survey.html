@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content_1 %}
+<div class="bg-purple-50 bg-opacity-75 h-full">
+    {% include 'navbar.html' %}
+    <article class="bg-white w-3/5 mx-auto shadow-xl p-12 mt-8">
+        <div class="grid grid-cols-2">
+            <h1 class="grid-start-1 ml-16 mt-4 text-3xl font-mono font-bold text-purple-500 text-center">Create your Survey!</h1>
+            <img class="grid-start-2 max-h-40"src="{% static 'media/undraw_Accept_request_re_d81h.svg' %}" alt='undraw-at-work'>
+        </div>
+        <form method="POST" class="ml-12">
+            {% csrf_token %}
+            <div class="">
+                <label for='title' class="text-xl mr-4 md:text-lg font-mono font-bold text-purple-500">Title</label>
+                <input id='title' type="text" name='title' class="w-10/12 mb-8 mt-2 shadow appearance-none border rounded py-2 px-3 text-grey-darker">
+            </div>
+            <hr>
+            <div class="">
+                <div class="ml-16 w-32 bg-purple-700 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-purple-200 hover:text-purple-700 focus:outline-none focus:shadow-outline">Add Option</div>
+                <div class="ml-16 w-36 bg-purple-700 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-purple-200 hover:text-purple-700 focus:outline-none focus:shadow-outline">Add Question</div>
+                <button type="submit" class="ml-16 bg-purple-700 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-purple-200 hover:text-purple-700 focus:outline-none focus:shadow-outline">Submit</button>
+
+            </div>
+        </form>
+
+
+    </article>
+</div>
+
+{% endblock %}

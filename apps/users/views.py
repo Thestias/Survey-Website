@@ -12,3 +12,6 @@ def register(request):
     else:
         register_form = CustomUserCreation()
     return render(request, 'users/register.html', context={'form': register_form})
+
+def profile(request):
+    pass

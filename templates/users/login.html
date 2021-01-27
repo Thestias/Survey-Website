@@ -2,9 +2,9 @@
 {% load static %}
 {% block content_1 %}
 <article class="bg-white h-screen grid md:grid-cols-2 grid-cols-1">
-    <div class="grid justify-items-center row-auto col-start-1 col-end-2 md:col-start-1 md:col-end-2 h-4/5 mt-14">
-        <h1 class="md:hidden underline text-2xl font-mono font-bold text-purple-700">Create Simple Surveys Fast!</h1>
-        <form method="POST" class="mt-8 text-xl font-mono font-bold">
+    <div class="grid justify-items-center col-start-1 col-end-2 md:col-start-1 md:col-end-2 h-4/5 mt-14">
+        <h1 class="row-start-1 md:hidden underline text-xl md:text-2xl font-mono font-bold text-purple-700">Create Simple Surveys Fast!</h1>
+        <form method="POST" class="row-start-2 row-span-2 md:ml-8 md:mt-8 text-xl font-mono font-bold">
           {% csrf_token %}
           {% for field in form %}
            <div class="fieldWrapper">

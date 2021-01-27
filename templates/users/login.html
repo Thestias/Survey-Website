@@ -2,13 +2,29 @@
 {% load static %}
 {% block content_1 %}
 <article class="bg-white h-screen grid md:grid-cols-2 grid-cols-1">
+      <!-- Forms Errors!! -->
+    {% if form.errors %}
+      {% for field in form %}
+          {% for error in field.errors %}
+            <div class="absolute w-screen text-center bg-red-600 text-white px-4 py-2">
+                <strong>{{ error|escape }}</strong>
+            </div>
+          {% endfor %}
+      {% endfor %}
+      {% for error in form.non_field_errors %}
+          <div class="absolute w-screen text-center bg-red-600 text-white px-4 py-2">
+              <strong>{{ error|escape }}</strong>
+          </div>
+      {% endfor %}
+    {% endif %}
+
     <div class="grid justify-items-center col-start-1 col-end-2 md:col-start-1 md:col-end-2 h-4/5 mt-14">
         <h1 class="row-start-1 md:hidden underline text-xl md:text-2xl font-mono font-bold text-purple-700">Create Simple Surveys Fast!</h1>
         <form method="POST" class="row-start-2 row-span-2 md:ml-8 md:mt-8 text-xl font-mono font-bold">
           {% csrf_token %}
+          <!-- Form Rendering!! -->
           {% for field in form %}
            <div class="fieldWrapper">
-            {{ field.errors }}
             <label for="{{field.id_for_label}}" class="text-purple-700">{{field.label_tag}}</label>
             {{ field }}
           </div>

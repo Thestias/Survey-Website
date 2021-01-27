@@ -8,6 +8,7 @@ input_form_appearance = 'block mb-8 mt-2 shadow appearance-none border rounded p
 class CustomUserCreation(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.label_suffix = ''
         self.fields['username'].widget.attrs.update({'class': input_form_appearance})
         self.fields['password1'].widget.attrs.update({'class': input_form_appearance})
         self.fields['password2'].widget.attrs.update({'class': input_form_appearance})
@@ -24,3 +25,4 @@ class CustomAuthenticationForm(AuthenticationForm):
         super().__init__(*args, **kwargs)
         self.fields['username'].widget.attrs.update({'class': input_form_appearance})
         self.fields['password'].widget.attrs.update({'class': input_form_appearance})
+        self.label_suffix = ''

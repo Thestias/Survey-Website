@@ -10,5 +10,5 @@ def register(request):
             register_form.save()
             return redirect('login')
     else:
-        register_form = CustomUserCreation(label_suffix='')
+        register_form = CustomUserCreation()
     return render(request, 'users/register.html', context={'form': register_form})

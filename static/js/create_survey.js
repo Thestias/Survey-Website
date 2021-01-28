@@ -2,6 +2,7 @@ window.onload = function () {
     let ammount_questions = (document.querySelectorAll('.question-wrapper').length + 1).toString()
     let add_question_btn = document.querySelector('#add_question')
     let parentArticle = add_question_btn.parentNode
+    let remove_question_btn = document.querySelector('#remove_question')
 
     add_question_btn.addEventListener('click', function () {
         ammount_questions = (document.querySelectorAll('.question-wrapper').length + 1).toString()
@@ -27,8 +28,14 @@ window.onload = function () {
 
         /* Creating Add Option Button */
         let question_op_button = document.createElement('div')
-        question_op_button.classList.add('custom_button_one', 'custom_button_one_add', 'ml-16', 'w-36')
+        question_op_button.classList.add('inline-block', 'custom_button_one', 'custom_button_one_add', 'ml-16', 'w-36')
         question_op_button.innerText = 'Add Option'
+
+        /* Creating Remove Option Button */
+        let question_op_button_remove = document.createElement('div')
+        question_op_button_remove.classList.add('inline-block', 'custom_button_one', 'custom_button_one_remove', 'ml-16', 'w-44')
+        question_op_button_remove.setAttribute('id', 'remove-option')
+        question_op_button_remove.innerText = 'Remove Option'
 
         /* Creating Separator */
         let question_separator = document.createElement('hr')
@@ -37,11 +44,17 @@ window.onload = function () {
         question_wrapper.insertAdjacentElement('beforeend', question_label)
         question_wrapper.insertAdjacentElement('beforeend', question_input)
         question_wrapper.insertAdjacentElement('beforeend', question_op_button)
+        question_wrapper.insertAdjacentElement('beforeend', question_op_button_remove)
         question_wrapper.insertAdjacentElement('beforeend', question_separator)
         parentArticle.insertBefore(question_wrapper, add_question_btn)
 
 
 
 
+    })
+
+    remove_question_btn.addEventListener('click', function () {
+        all_questions = document.querySelectorAll('.question-wrapper')
+        all_questions[all_questions.length - 1].remove()
     })
 }

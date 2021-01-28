@@ -2,9 +2,11 @@
 {% load static %}
 
 {% block content_1 %}
-<div class="bg-purple-50 bg-opacity-75 h-full">
+<script src="{% static 'js/create_survey.js' %}"></script>
+
+<div class="bg-purple-50 bg-opacity-75">
     {% include 'navbar.html' %}
-    <article class="bg-white w-3/5 mx-auto shadow-xl p-12 mt-8">
+    <article id="article-wrapper" class="bg-white w-3/5 mx-auto shadow-xl md:p-12 mt-8">
         <div class="grid grid-cols-2">
             <h1 class="grid-start-1 ml-16 mt-4 custom_label_text_one md:text-4xl">Create your
                 Survey!</h1>
@@ -16,21 +18,26 @@
 
             <!-- Title -->
             <div class="">
-                <label for='title' class="custom_label_text_one mr-4">Title</label>
-                <input id='title' type="text" name='title' class="custom_input_one">
+                <label for='title' class="custom_label_text_one mr-4 ml-8">Title</label>
+                <input id='title' type="text" name='title' required class="custom_input_one">
             </div>
             <hr>
             
             <!-- First Default Question -->
-            <label for="question_1" class="custom_label_text_one mr-4">Question</label>
-            <input id='question_1' type="text" name='question_1' class="custom_input_one">
-            <div class="custom_button_one cursor-pointer ml-16 w-32">Add Option</div>
-            <hr>
+            <div class="question-wrapper mt-4">
+                <label for="question_1" class="custom_label_text_one mr-4">Question</label>
+                <input id='question_1' type="text" name='question_1' required class="custom_input_one">
+                <div class="inline-block custom_button_one w-36 custom_button_one_add">Add Option</div>
+                <div class="inline-block custom_button_one w-44 custom_button_one_remove">Remove Option</div>
+
+                <hr>
+            </div>
             
             <!-- Add Question-->
-            <div class="custom_button_one ml-16 cursor-pointer w-36">Add Question</div>
+            <div id="add_question" class="inline-block custom_button_one custom_button_one_add w-40">Add Question</div>
+            <div id="remove_question" class="inline-block custom_button_one custom_button_one_remove w-48">Remove Question</div>
             <hr>
-            <button type="submit" class="custom_button_one ml-16">Submit</button>
+            <button type="submit" class="custom_button_one_purple custom_button_one w-36">Submit</button>
         </form>
 
 

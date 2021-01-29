@@ -126,3 +126,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(os.path.dirname(BASE_DIR), 'static'),
 ]
+
+# LOGOUT REDIRECT
+
+LOGOUT_REDIRECT_URL = 'register'

@@ -47,14 +47,12 @@ window.onload = function () {
         question_wrapper.insertAdjacentElement('beforeend', question_op_button_remove)
         question_wrapper.insertAdjacentElement('beforeend', question_separator)
         parentArticle.insertBefore(question_wrapper, add_question_btn)
-
-
-
-
     })
 
     remove_question_btn.addEventListener('click', function () {
         all_questions = document.querySelectorAll('.question-wrapper')
-        all_questions[all_questions.length - 1].remove()
+        if (all_questions.length != 1) {
+            all_questions[all_questions.length - 1].remove()
+        }
     })
 }

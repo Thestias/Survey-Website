@@ -4,10 +4,13 @@ window.onload = function () {
     let remove_question_btn = document.querySelector('#remove_question')
     AMMOUNT_OF_QUESTIONS = (document.querySelectorAll('.question-wrapper').length + 1).toString()
 
-    /* CREATING NESSESARY ELEMENTS */
 
     /* Creating Question Div Wrapper */
     function question_wrapper_creation() {
+        /*
+        * Creates a HTML DIV tag to wrapp the questions
+        * @return {Object}  Returns the new Div element
+        */
         let question_wrapper = document.createElement('div');
         question_wrapper.setAttribute('id', 'question_' + AMMOUNT_OF_QUESTIONS)
         question_wrapper.classList.add('question-wrapper', 'mt-4')
@@ -68,6 +71,11 @@ window.onload = function () {
     }
 
     function option_button(type_button) {
+        /*
+        * Creates the REMOVE/ADD Option Buttons and adds their respective listeners.
+        * @param {STRING} type_button  A choice of either ADD or REMOVE
+        * @return {OBJECT}  The new Option object
+        */
         let option_btn = document.createElement('div')
         option_btn.classList.add('inline-block', 'custom_button_one', 'ml-16') // These are general styles
         if (type_button === 'REMOVE') {
@@ -76,8 +84,10 @@ window.onload = function () {
             option_btn.addEventListener('click', function () {
                 let find_input_options = option_btn.parentNode.querySelectorAll('.option-no-style')
                 let find_label_options = option_btn.parentNode.querySelectorAll('.label-no-style')
-                find_label_options[find_label_options.length - 1].remove()
-                find_input_options[find_input_options.length - 1].remove()
+                if (find_input_options.length != 1) {
+                    find_label_options[find_label_options.length - 1].remove()
+                    find_input_options[find_input_options.length - 1].remove()
+                }
             })
         } else if (type_button === 'ADD') {
             option_btn.classList.add('custom_button_one_add', 'w-36')
@@ -90,6 +100,8 @@ window.onload = function () {
         return option_btn
     }
 
+
+    /* THESE LISTENERS ADD AND REMOVE QUESTIONS */
     add_question_btn.addEventListener('click', function () {
 
         /* Creating Separator */
@@ -112,15 +124,17 @@ window.onload = function () {
             all_questions[all_questions.length - 1].remove()
         }
     })
+    /* END ADD/REMOVE LISTENERS
 
-
+    /* EVERYTHING BELOW THIS CREATES A QUESTION/OPTION AND THEIR RESPECTIVE BUTTONS ONCE THE PAGE LOADS
     /* Creating Separator */
     let question_separator = document.createElement('hr')
 
     let question_wrapper = question_wrapper_creation()
-    /* PLACING ELEMENTS */
     question_wrapper.insertAdjacentElement('beforeend', label_creation('QUESTION', 'Question', 'mr-4'))
     question_wrapper.insertAdjacentElement('beforeend', input_creation('QUESTION'))
+    question_wrapper.insertAdjacentElement('beforeend', label_creation('OPTION', 'Option', 'mr-9'))
+    question_wrapper.insertAdjacentElement('beforeend', input_creation('OPTION'))
     question_wrapper.insertAdjacentElement('beforeend', option_button('ADD'))
     question_wrapper.insertAdjacentElement('beforeend', option_button('REMOVE'))
     question_wrapper.insertAdjacentElement('beforeend', question_separator)

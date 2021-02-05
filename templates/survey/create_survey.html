@@ -2,35 +2,78 @@
 {% load static %}
 
 {% block content_1 %}
-<script src="{% static 'js/create_survey.js' %}"></script>
-
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+<script src="{% static 'js/create_survey.js' %}"></script> -->
+{{ survey_id|json_script:"hello-data" }}
 <div class="bg-purple-50 bg-opacity-75 min-h-screen">
     {% include 'navbar.html' %}
     <article id="article-wrapper" class="bg-white w-3/5 mx-auto shadow-xl md:p-12 mt-8">
+        {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+        {% endif %}
         <div class="grid grid-cols-2">
             <h1 class="grid-start-1 ml-16 mt-4 custom_label_text_one md:text-4xl">Create your
                 Survey!</h1>
             <img class="grid-start-2 max-h-40" src="{% static 'media/undraw_Accept_request_re_d81h.svg' %}"
                 alt='undraw-at-work'>
         </div>
-        <form method="POST" class="ml-12" class="">
+        <form id="form" method="POST" class="ml-12" class="">
             {% csrf_token %}
-
-            <!-- Title -->
-            <div class="">
-                <label for='title' class="custom_label_text_one mr-12">Title</label>
-                <input id='title' type="text" name='title' required class="custom_input_one">
+            {{ question_formset.management_form }}
+            {{ question_formset.non_form_errors }}
+            
+            {% for form in question_formset.forms %}
+            <!-- RENDERING QUESTION FORM -->
+            <div class="fieldWrapper">
+               {% for field in form %}
+                    {% if field.errors %}
+                        <ol>
+                        {% for error in field.errors %}
+                            <li><strong>{{ error|escape }}</strong></li>
+                        {% endfor %}
+                        </ol>
+                    {% endif %}
+                   {% if field.is_hidden != True %}
+                       <label for="{{field.id_for_label}}" class="inline-block text-xl font-mono font-bold text-purple-700 e mr-8">{{field.label}}</label>
+                       {{field}}
+                    {% else %}
+                        {{field}}
+                   {% endif %}
+               {% endfor %}
+               <br>
+               <!-- RENDERING OPTION FORM -->
+               {% if form.nested %}
+                   {{ form.nested.management_form }}
+                   {{ form.nested.non_form_errors }}
+               <div class="mt-4 bg-purple-100 p-4 border rounded">
+                   {% for nested_form in form.nested.forms %}
+                       {% for field in nested_form %}
+                            {% if field.errors %}
+                                <ol>
+                                {% for error in field.errors %}
+                                    <li><strong>{{ error|escape }}</strong></li>
+                                {% endfor %}
+                                </ol>
+                            {% endif %}
+                           {% if field.is_hidden != True %}
+                               <label for="{{field.id_for_label}}" class="inline-block text-xl font-mono font-bold text-purple-700 e mr-8">{{field.label}}</label>
+                               {{field}}
+                            {% else %}
+                               {{field}}
+                           {% endif %}
+                       {% endfor %}
+                       <br>
+                   {% endfor %}
+               {% endif %}
+               </div>
             </div>
-            <hr>
-
-            <!-- Add Question-->
-            <div id="add_question" class="inline-block custom_button_one custom_button_one_add w-40">Add Question</div>
-            <div id="remove_question" class="inline-block custom_button_one custom_button_one_remove w-48">Remove Question</div>
-            <hr>
-            <button type="submit" class="custom_button_one_purple custom_button_one w-36">Submit</button>
+            <hr class="mb-6 mt-4">
+            {% endfor %}
+            <button id="submit_button" type="submit" class="inline-block custom_button_one_purple custom_button_one w-36">Submit</button>
+            <div id="after_submit" class="inline-block"></div>
         </form>
-
-
     </article>
 </div>
 

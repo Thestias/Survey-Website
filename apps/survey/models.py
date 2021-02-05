@@ -20,7 +20,7 @@ class Question(models.Model):
     question = models.CharField(max_length=500)
 
     def __str__(self):
-        return f'From the Survey_ID: {self.survey_id} - Question: {self.question}'
+        return f'From the Survey_ID: {self.survey} - Question: {self.question}'
 
 
 class Option(models.Model):

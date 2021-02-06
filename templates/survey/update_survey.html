@@ -21,10 +21,10 @@
             {% csrf_token %}
             {{ question_formset.management_form }}
             {{ question_formset.non_form_errors }}
-            
-            {% for form in question_formset.forms %}
+
             <!-- RENDERING QUESTION FORM -->
-            <div class="fieldWrapper">
+            {% for form in question_formset.forms %}
+            <div class="question-wrapper">
                {% for field in form %}
                     {% if field.errors %}
                         <ol>
@@ -66,12 +66,58 @@
                    {% endfor %}
                 </div>
                {% endif %}
+               <hr class="mb-6 mt-4">
             </div>
-            <hr class="mb-6 mt-4">
             {% endfor %}
+            <!-- END QUESTION FORMS -->
+            <div id="question-add" class="inline-block custom_button_one custom_button_one_add w-40">Add Question</div>
+            <div id="question-remove" class="inline-block custom_button_one custom_button_one_remove w-46">Remove Question</div>
+            <hr>
             <button id="submit_button" type="submit" class="inline-block custom_button_one_purple custom_button_one w-36">Submit</button>
             <div id="after_submit" class="inline-block"></div>
         </form>
+
+        <!-- Empty Form for JS -->
+        <div id="empty-form" class="hidden">
+            {% for field in question_formset.empty_form %}
+                {% if field.errors %}
+                    <ol>
+                    {% for error in field.errors %}
+                        <li><strong>{{ error|escape }}</strong></li>
+                    {% endfor %}
+                    </ol>
+                {% endif %}
+                {% if field.is_hidden != True %}
+                    <label for="{{field.id_for_label}}" class="inline-block text-xl font-mono font-bold text-purple-700 e mr-8">{{field.label}}</label>
+                    {{field}}
+                {% else %}
+                    {{field}}
+                {% endif %}
+            {% endfor %}
+
+            <!-- OPTION EMPTY FORM -->
+            <div class="mt-4 bg-purple-100 p-4 border rounded">
+                {% for field in question_formset.forms.0.nested.empty_form %}
+                    {% if field.errors %}
+                        <ol>
+                        {% for error in field.errors %}
+                            <li><strong>{{ error|escape }}</strong></li>
+                        {% endfor %}
+                        </ol>
+                    {% endif %}
+                    {% if field.is_hidden != True %}
+                        <label for="{{field.id_for_label}}" class="inline-block text-xl font-mono font-bold text-purple-700 e mr-8">{{field.label}}</label>
+                        {{field}}
+                    {% else %}
+                        {{field}}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        <hr class="mb-6 mt-4">
+        </div>
+
+
+
     </article>
 </div>
 

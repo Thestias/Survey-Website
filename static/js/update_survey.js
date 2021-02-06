@@ -21,5 +21,29 @@ window.onload = function () {
             event.preventDefault();
         })
     } // ENDS update_survey
+
+    let question_forms; // THIS ONE HAS ALL THE QUESTIONS WRAPPERS NEEDED TO INCREASE AMMOUNT OF FORMS ALLOWED
+    let add_question = document.querySelector('#question-add')
+    let remove_question = document.querySelector('#question-remove')
+    let new_form;
+    let new_amm_forms;
+
+    let amm_forms_allowed = document.querySelector('#id_question_set-TOTAL_FORMS')
+
+    add_question.addEventListener('click', add_question_form)
+
+    function add_question_form() {
+        question_forms = document.querySelectorAll('.question-wrapper')
+        new_amm_forms = question_forms.length + 1
+        amm_forms_allowed.setAttribute('value', new_amm_forms)
+        new_form = document.querySelector('#empty-form').cloneNode(true)
+        new_form.classList = 'question-wrapper'
+        new_form.setAttribute('id', '')
+
+        new_form.innerHTML = new_form.innerHTML.replaceAll('__prefix__', new_amm_forms)
+
+        add_question.insertAdjacentElement('beforebegin', new_form)
+    }
+
     update_survey()
 } // ENDS ONLOAD

@@ -11,30 +11,33 @@ from django.contrib import messages
 @login_required(login_url='/login')
 def create_survey(request, survey_id):
     survey_instance = get_object_or_404(Survey, id=survey_id)
+
+    if survey_instance.author.id != request.user.id:  # Checking ownership
+        messages.error(request, 'You are not the owner of this survey!')
+        return redirect('register')
+
+    question_formset = QuestionFormSet(instance=survey_instance)
+
+    return render(
+        request, 'survey/update_survey.html',
+        context={'question_formset': question_formset, 'survey_id': survey_instance.id})
+
+
+@login_required(login_url='/login')
+def add_survey(request, survey_id):
+    survey_instance = get_object_or_404(Survey, id=survey_id)
+
+    if survey_instance.author.id != request.user.id:  # Checking ownership
+        return JsonResponse({'Error': 'You are not the owner of this survey!'})
+
     if request.method == 'POST':
+        survey_instance = get_object_or_404(Survey, id=survey_id)
         question_formset = QuestionFormSet(request.POST, request.FILES, instance=survey_instance)
+
         try:
             if question_formset.is_valid():
                 question_formset.save()
-            else:
-                print(question_formset.errors)
+                return JsonResponse({'Success': 'Survey Created Succesfully!'})
         except Exception as e:
-            print('OHNO QUE PASO?')
             print(e)
-    else:
-        question_formset = QuestionFormSet(instance=survey_instance)
-
-    return render(request, 'survey/create_survey.html', context={'question_formset': question_formset})
-
-
-# @ login_required()
-# def add_survey(request, survey_id):
-#     if request.method == 'POST':
-#         survey_instance = get_object_or_404(Survey, id=survey_id)
-#         question_formset = QuestionFormSet(request.POST, request.FILES, instance=survey_instance)
-#         if question_formset.is_valid():
-#             question_formset.save()
-#             return JsonResponse({'Success': 'Survey Created Succesfully!'})
-#         else:
-#             print(e)
-#             return JsonResponse({'Error': e})
+            return JsonResponse({'Error': e})

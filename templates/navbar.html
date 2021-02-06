@@ -1,9 +1,17 @@
 
-<!-- THIS NAVBAR IS ONLY FOR REGISTERED USERS! -->
-<nav class="flex flex-row-reverse items-center w-screen h-12 bg-purple-500">
-    <div class="text-xl md:text-lg font-mono font-bold text-white">
-        <a href="#">Profile</a>
-        <a href="#" class="mx-8">Settings</a>
-        <a href="{% url 'logout' %}" class="mr-8">Logout</a>
+<!-- THIS NAVBAR IS ONLY FOR LOGGED USERS! -->
+
+<nav class="flex items-center w-screen h-12 bg-purple-500">
+    <div class="w-2/4 flex items-center h-12 bg-purple-500">
+        <div class="text-lg md:text-2xl font-mono font-bold text-white ml-4">
+            <p>Welcome {{request.user}}!</p>
+        </div>
+    </div>
+    <div class="w-2/4 flex flex-row-reverse items-center h-12 bg-purple-500">
+        <div class="text-xl md:text-lg font-mono font-bold text-white">
+            <a href="#">Profile</a>
+            <a href="#" class="mx-8">Settings</a>
+            <a href="{% url 'logout' %}" class="mr-8">Logout</a>
+        </div>
     </div>
 </nav>

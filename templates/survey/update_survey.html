@@ -2,17 +2,15 @@
 {% load static %}
 
 {% block content_1 %}
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
-<script src="{% static 'js/create_survey.js' %}"></script> -->
-{{ survey_id|json_script:"hello-data" }}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+<script src="{% static 'js/update_survey.js' %}"></script>
+
+<!-- HOLDS THE SURVEY ID VARIABLE FOR JS -->
+{{ survey_id|json_script:"survey_id" }}
+
 <div class="bg-purple-50 bg-opacity-75 min-h-screen">
     {% include 'navbar.html' %}
     <article id="article-wrapper" class="bg-white w-3/5 mx-auto shadow-xl md:p-12 mt-8">
-        {% if messages %}
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
-        {% endif %}
         <div class="grid grid-cols-2">
             <h1 class="grid-start-1 ml-16 mt-4 custom_label_text_one md:text-4xl">Create your
                 Survey!</h1>
@@ -66,8 +64,8 @@
                        {% endfor %}
                        <br>
                    {% endfor %}
+                </div>
                {% endif %}
-               </div>
             </div>
             <hr class="mb-6 mt-4">
             {% endfor %}

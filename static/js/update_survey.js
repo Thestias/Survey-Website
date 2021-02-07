@@ -7,7 +7,7 @@ window.onload = function () {
             let data = $('#form').serialize()
             $.ajax({
                 type: "POST",
-                url: "add/" + value, // Page to send the Data!
+                url: "submit/" + value, // Page to send the Data!
                 dataType: "json",
                 data: data,
             })

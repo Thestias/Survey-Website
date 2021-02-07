@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models import Count
 
 # Create your models here.
 
@@ -8,6 +9,7 @@ class Survey(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=256)
     created = models.DateTimeField(auto_now_add=True)
+    description = models.CharField(max_length=3000)
     is_active = models.BooleanField()
     is_public = models.BooleanField()
 

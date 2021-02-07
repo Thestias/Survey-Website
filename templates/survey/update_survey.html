@@ -10,14 +10,14 @@
 
 <div class="bg-purple-50 bg-opacity-75 min-h-screen">
     {% include 'navbar.html' %}
-    <article id="article-wrapper" class="bg-white w-3/5 mx-auto shadow-xl md:p-12 mt-8">
+    <article id="article-wrapper" class="bg-white w-3/5 mx-auto shadow-xl md:p-16 mt-8">
         <div class="grid grid-cols-2">
             <h1 class="grid-start-1 ml-16 mt-4 custom_label_text_one md:text-4xl">Create your
                 Survey!</h1>
             <img class="grid-start-2 max-h-40" src="{% static 'media/undraw_Accept_request_re_d81h.svg' %}"
                 alt='undraw-at-work'>
         </div>
-        <form id="form" method="POST" class="ml-12" class="">
+        <form id="form" method="POST" class="" class="">
             {% csrf_token %}
             {{ question_formset.management_form }}
             {{ question_formset.non_form_errors }}
@@ -109,14 +109,12 @@
                         <label for="{{field.id_for_label}}" class="inline-block text-xl font-mono font-bold text-purple-700 e mr-8">{{field.label}}</label>
                         {{field}}
                     {% else %}
-                        {{field}}
+                        <input id="{{field.id_for_label}}" type="hidden" name="{{field.html_name}}">
                     {% endif %}
                 {% endfor %}
             </div>
         <hr class="mb-6 mt-4">
         </div>
-
-
 
     </article>
 </div>

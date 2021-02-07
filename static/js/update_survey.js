@@ -17,6 +17,7 @@ window.onload = function () {
                 })
                 .fail(function (data) {
                     $('#after_submit').html('<p class="text-xl md:text-lg font-mono font-bold text-red-600 ">Error!</p>')
+                    console.log(data)
                 })
             event.preventDefault();
         })
@@ -32,6 +33,8 @@ window.onload = function () {
 
     add_question.addEventListener('click', add_question_form)
 
+    remove_question.addEventListener('click', remove_question_form)
+
     function add_question_form() {
         question_forms = document.querySelectorAll('.question-wrapper')
         new_amm_forms = question_forms.length + 1
@@ -40,9 +43,18 @@ window.onload = function () {
         new_form.classList = 'question-wrapper'
         new_form.setAttribute('id', '')
 
+
+        // new_form.innerHTML = new_form.innerHTML.replaceAll('')
         new_form.innerHTML = new_form.innerHTML.replaceAll('__prefix__', new_amm_forms)
 
         add_question.insertAdjacentElement('beforebegin', new_form)
+    }
+
+    function remove_question_form() {
+        question_forms = document.querySelectorAll('.question-wrapper')
+        if (question_forms.length != 1) {
+            question_forms[question_forms.length - 1].remove()
+        }
     }
 
     update_survey()

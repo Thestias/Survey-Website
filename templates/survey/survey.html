@@ -18,33 +18,37 @@
             <hr class="my-4">
             <div id="owner-adm-tools">
                 <div class="my-12 inline-block">
-                    <a href="{% url 'create_survey' survey_id=survey.id %}" class="custom_button_one custom_button_one_add">Edit Questions!</a>
-                </div>
-
-                <div class="my-12 inline-block">
-                    <a href="{% url 'create_survey' survey_id=survey.id %}" class="custom_button_one custom_button_one_remove">Delete Survey!</a>
+                    <a href="{% url 'edit_questions' survey_id=survey.id %}" class="custom_button_one custom_button_one_add">Edit Questions!</a>
                 </div>
 
                 <h1 class="my-4 custom_label_text_one md:text-2xl">Edit Survey!</h1>
-                <form method="POST" class="">
+                <form method="POST" class="grid grid-cols-2">
                     {% csrf_token %}
                     {% for field in question_edit_form %}
-                        {% if field.errors %}
-                            <ol>
-                            {% for error in field.errors %}
-                                <li><strong>{{ error|escape }}</strong></li>
-                            {% endfor %}
-                            </ol>
-                        {% endif %}
-                        {% if field.is_hidden != True %}
-                            <label for="{{field.id_for_label}}" class="inline-block text-xl font-mono font-bold text-purple-700 e mr-8">{{field.label}}</label>
-                            {{field}}
-                        {% else %}
-                            {{field}}
-                        {% endif %}
+                        <div class="col-span-1">
+                            {% if field.errors %}
+                                <ol>
+                                {% for error in field.errors %}
+                                    <li><strong>{{ error|escape }}</strong></li>
+                                {% endfor %}
+                                </ol>
+                            {% endif %}
+                            {% if field.is_hidden != True %}
+                                <label for="{{field.id_for_label}}" class="text-xl font-mono font-bold text-purple-700 e mr-8">{{field.label}}</label>
+                                {{field}}
+                            {% else %}
+                                {{field}}
+                            {% endif %}
+                        </div>
                     {% endfor %}
-                    <input type="checkbox" name="delete" value="delete">
-                <button id="submit_button" type="submit" class="inline-block custom_button_one_purple custom_button_one w-36">Submit</button>
+                    <div class=" h-8">
+                        <label class="custom_label_text_one md:text-xl">Delete</label>
+                        <input type="checkbox" name="delete" value="delete">
+                    </div>
+                    
+                    <div class="col-span-2 my-4">
+                        <button id="submit_button" type="submit" class="custom_button_one_purple custom_button_one w-36">Submit</button>
+                    </div>
                 </form>
 
             </div>

@@ -11,7 +11,11 @@ from django.contrib import messages
 
 @require_http_methods(['GET'])
 @login_required(login_url='/login')
-def create_survey(request, survey_id):
+def edit_questions(request, survey_id):
+    '''
+    This function allows the OWNER of a Survey to edit all of it's questions
+    and options.
+    '''
     survey_instance = get_object_or_404(Survey, id=survey_id)
 
     if survey_instance.author.id != request.user.id:  # Checking ownership
@@ -27,7 +31,11 @@ def create_survey(request, survey_id):
 
 @require_http_methods(['POST'])
 @login_required(login_url='/login')
-def add_survey(request, survey_id):
+def ajax_edit_questions(request, survey_id):
+    '''
+    This function recieves the data from edit_questions() trought
+    a AJAX POST request
+    '''
     survey_instance = get_object_or_404(Survey, id=survey_id)
 
     if survey_instance.author.id != request.user.id:  # Checking ownership
@@ -42,6 +50,10 @@ def add_survey(request, survey_id):
 
 
 def survey(request, survey_id):
+    '''
+    This function displays the title and description of a survey to a user,
+    to it's owner, also shows management tools
+    '''
     survey = get_object_or_404(Survey, id=survey_id)
     if request.user.id == survey.author.id:
         question_edit_form = SurveyForm(instance=survey)

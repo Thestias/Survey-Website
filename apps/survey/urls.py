@@ -9,11 +9,11 @@ urlpatterns = [
     # Displays the questions and their options
     #path('<survey_id>', views.start_survey, name='start_survey'),
     #
-    path('edit/<survey_id>/', views.create_survey, name='create_survey'),
+    path('edit/<survey_id>/', views.edit_questions, name='edit_questions'),
 
     # BELOW - PATHS FOR AJAX REQUESTS
     # This one recieves AJAX POST requests to add/edit surveys
-    path('edit/submit/<survey_id>/', views.add_survey, name='add_survey'),
+    path('edit/submit/<survey_id>/', views.ajax_edit_questions, name='ajax_edit_questions'),
 
     # When a User SUBMITS its answers
     #path('<survey_id>/submit', views.submit_survey, name='submit_survey')

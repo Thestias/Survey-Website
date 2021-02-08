@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content_1 %}
+
+<article class="bg-purple-50 bg-opacity-75 min-h-screen">
+    {% include 'navbar.html' %}
+
+    <section class="bg-white w-3/5 mx-auto shadow-xl md:p-16 mt-8 text-center">
+
+        <h1 class=" mt-4 custom_label_text_one md:text-4xl">{{survey.title}}</h1>
+        <hr class="my-4">
+        <p class=" custom_label_text_one text-lg md:text-2xl">{{survey.description}}</p>
+        
+        <div class="my-12"><a href="{% url 'survey' survey_id=survey.id %}" class="custom_button_one custom_button_one_purple">Start Survey!</a></div>
+
+        {% if request.user.id == survey.author.id %}
+            <hr class="my-4">
+            <div id="owner-adm-tools">
+                <div class="my-12 inline-block">
+                    <a href="{% url 'create_survey' survey_id=survey.id %}" class="custom_button_one custom_button_one_add">Edit Questions!</a>
+                </div>
+
+                <div class="my-12 inline-block">
+                    <a href="{% url 'create_survey' survey_id=survey.id %}" class="custom_button_one custom_button_one_remove">Delete Survey!</a>
+                </div>
+
+                <h1 class="my-4 custom_label_text_one md:text-2xl">Edit Survey!</h1>
+                <form method="POST" class="">
+                    {% csrf_token %}
+                    {% for field in question_edit_form %}
+                        {% if field.errors %}
+                            <ol>
+                            {% for error in field.errors %}
+                                <li><strong>{{ error|escape }}</strong></li>
+                            {% endfor %}
+                            </ol>
+                        {% endif %}
+                        {% if field.is_hidden != True %}
+                            <label for="{{field.id_for_label}}" class="inline-block text-xl font-mono font-bold text-purple-700 e mr-8">{{field.label}}</label>
+                            {{field}}
+                        {% else %}
+                            {{field}}
+                        {% endif %}
+                    {% endfor %}
+                    <input type="checkbox" name="delete" value="delete">
+                <button id="submit_button" type="submit" class="inline-block custom_button_one_purple custom_button_one w-36">Submit</button>
+                </form>
+
+            </div>
+        {% endif %}
+
+    </section>
+
+
+</article>
+
+
+
+{% endblock %}

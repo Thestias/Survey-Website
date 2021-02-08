@@ -1,4 +1,4 @@
-from .forms import QuestionFormSet, OptionFormSet
+from .forms import QuestionFormSet, OptionFormSet, SurveyForm
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Survey, Option, Question
@@ -39,3 +39,21 @@ def add_survey(request, survey_id):
         return JsonResponse({'Success': 'Survey updated/created succesfully'})
     else:
         return JsonResponse({'Error': 'Error while creating survey', 'Errors': question_formset.errors})
+
+
+def survey(request, survey_id):
+    survey = get_object_or_404(Survey, id=survey_id)
+    if request.user.id == survey.author.id:
+        question_edit_form = SurveyForm(instance=survey)
+
+    if request.method == 'POST':
+        if 'delete' in request.POST:
+            survey.delete()
+            messages.info(request, 'Survey deleted!')
+            return redirect('profile')
+        survey_data = SurveyForm(request.POST, instance=survey)
+        if survey_data.is_valid():
+            survey_data.save()
+
+    return render(request, template_name='survey/survey.html',
+                  context={'survey': survey, 'question_edit_form': question_edit_form or None})

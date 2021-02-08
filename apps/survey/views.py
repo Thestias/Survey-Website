@@ -63,9 +63,13 @@ def survey(request, survey_id):
             survey.delete()
             messages.info(request, 'Survey deleted!')
             return redirect('profile')
-        survey_data = SurveyForm(request.POST, instance=survey)
-        if survey_data.is_valid():
-            survey_data.save()
+        else:
+            survey_data = SurveyForm(request.POST, instance=survey)
+            if survey_data.is_valid():
+                messages.success(request, 'Survey updated!')
+                survey_data.save()
+            else:
+                messages.error(request, 'Invalid form!')
 
     return render(request, template_name='survey/survey.html',
                   context={'survey': survey, 'question_edit_form': question_edit_form or None})

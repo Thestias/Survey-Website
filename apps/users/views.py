@@ -33,5 +33,12 @@ def profile(request):
             else:
                 survey.save()
                 messages.success(request, 'Survey Created!')
+        elif 'delete-survey' in request.POST:
+            try:
+                survey = Survey(request.POST.get('delete-survey')).delete()
+            except Exception as e:
+                messages.error(request, e)
+            else:
+                messages.success(request, 'Survey sucessfully deleted')
 
     return render(request, 'users/profile.html', context={'user_surveys': user_surveys})

@@ -28,15 +28,17 @@
                 </div>
 
                 {% for survey in user_surveys %}
-                    {{survey.aa}}
                     <div class="grid grid-flow-col grid-cols-6 text-xl font-mono font-bold text-purple-700">
                         <div class="bg-purple-50 p-4 border rounded text-center">
-                            <label>{{survey.is_active}}</label>
+                            <form method="POST" class="m-0 p-0">
+                                {% csrf_token %}
+                                <button class="custom_button_one custom_button_one_purple" type="submit" name="delete-survey" value="{{survey.id}}">Delete</button>
+                            </form>
                         </div>
-                        <div class="bg-purple-50 p-4 border rounded col-span-4">
-                            <a href="{% url 'survey' survey_id=survey.id %}">{{survey.title}}</a>
+                        <div class="bg-purple-50 p-6 text-2xl truncate text-center border rounded col-span-4">
+                            <a href="{% url 'survey' survey_id=survey.id %}" class="hover:text-purple-500 hover:underline">{{survey.title}}</a>
                         </div>
-                        <div class="bg-purple-50 p-4 border rounded">4</div>
+                        <div class="bg-purple-50 p-6 text-2xl text-center border rounded">4</div>
                     </div>
                 {% endfor %}
             {% else %}

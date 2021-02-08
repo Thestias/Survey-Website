@@ -2,6 +2,24 @@ from django.forms import inlineformset_factory, ModelForm, BaseInlineFormSet
 from .models import Survey, Question, Option, Submission, Answer
 
 
+class SurveyForm(ModelForm):
+    '''
+    This form applies TailwindCSS styles to the input fields.
+    '''
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.label_suffix = ''
+        self.fields['title'].widget.attrs.update({'class': 'custom_input_one'})
+        self.fields['title'].required = False
+        self.fields['description'].widget.attrs.update({'class': 'custom_input_one'})
+        self.fields['description'].required = False
+
+    class Meta:
+        model = Survey
+        fields = ('title', 'description',)
+
+
 class BaseChildrenFormset(BaseInlineFormSet):
 
     def add_fields(self, form, index):

@@ -6,25 +6,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple Surveys</title>
     <link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
+    <script src="{% static 'js/close_button.js' %}"></script>
 </head>
 <body>
     <!-- Messages Displaying -->
     {% if messages %}
-        <div class="absolute w-screen">
+        <div id="messages-wrapper" class="absolute w-screen">
             {% for message in messages %}
                 {% if message.tags == 'success' %}
                     <div class="bg-green-500 h-12 pt-2 text-center text-white text-lg md:text-xl">
                         <strong class="{{ message.tags }}">{{ message }}</strong>
+                        <div id="close-button" class="p-2 h-auto text-center inline-block cursor-pointer text-sm md:text-base">
+                            <strong>Close</strong>
+                        </div>
                     </div>
                 {% else %}
                     <div class="bg-red-500 h-12 pt-2 text-center text-white text-lg md:text-xl">
                         <strong class="{{ message.tags }}">{{ message }}</strong>
+                        <div id="close-button" class="p-2 h-auto text-center inline-block cursor-pointer text-sm md:text-base">
+                            <strong>Close</strong>
+                        </div>
                     </div>
                 {% endif %}
             {% endfor %}
+
         </div>
     {% endif %}
-  
     {% block content_1 %}
     {% endblock %}
 </body>

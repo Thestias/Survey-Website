@@ -7,11 +7,11 @@ from django.db.models import Count
 
 class Survey(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    title = models.CharField(max_length=256)
+    title = models.CharField(max_length=256, default='title')
     created = models.DateTimeField(auto_now_add=True)
-    description = models.CharField(max_length=3000)
-    is_active = models.BooleanField()
-    is_public = models.BooleanField()
+    description = models.CharField(max_length=3000, default='description')
+    is_active = models.BooleanField(default=True)
+    is_public = models.BooleanField(default=True)
 
     def __str__(self):
         return f'Survey Title: {self.title} - Author_ID: {self.author} - Is active?: {self.is_active} - Is Public?: {self.is_public}'

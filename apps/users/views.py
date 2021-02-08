@@ -8,6 +8,9 @@ from django.contrib.auth.decorators import login_required
 
 
 def register(request):
+    if request.user.is_authenticated:
+        return redirect('profile')
+
     if request.method == 'POST':
         register_form = CustomUserCreation(request.POST)
         if register_form.is_valid():

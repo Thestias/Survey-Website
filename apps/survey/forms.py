@@ -14,10 +14,11 @@ class SurveyForm(ModelForm):
         self.fields['title'].required = False
         self.fields['description'].widget.attrs.update({'class': 'custom_input_one'})
         self.fields['description'].required = False
+        self.fields['is_active'].label = 'Active?'
 
     class Meta:
         model = Survey
-        fields = ('title', 'description',)
+        fields = ('title', 'description', 'is_active')
 
 
 class BaseChildrenFormset(BaseInlineFormSet):

@@ -2,17 +2,17 @@
 {% load static %}
 
 {% block content_1 %}
-<div class="bg-purple-50 bg-opacity-75 min-h-screen">
+<article class="bg-purple-50 bg-opacity-75 min-h-screen">
     {% include 'navbar.html' %}
-    <article id="article-wrapper" class="bg-white w-3/5 mx-auto shadow-xl md:p-12 mt-8">
+    <section id="article-wrapper" class="bg-white w-3/5 mx-auto shadow-xl md:p-12 mt-8">
         
         <div class="grid grid-cols-2">
             <h1 class="grid-start-1 ml-16 mt-4 custom_label_text_one md:text-4xl">Welcome <br>to your profile!</h1>
             <img class="grid-start-2 max-h-40" src="{% static 'media/undraw_Content_creator_re_pt5b.svg' %}" alt='undraw-creator'>
+            <hr class="mt-8">
         </div>
-        <hr class="mt-8">
         
-        <article class="grid grid-flow-row gap-4 mt-4 bg-purple-100 p-4 border rounded">
+        <section class="grid grid-flow-row gap-4 mt-4 bg-purple-100 p-4 border rounded">
             {% if user_surveys %}
                 <div class="grid grid-flow-col grid-cols-6 text-xl font-mono font-bold text-purple-700">
                     <div class="bg-purple-50 p-4 border rounded text-center">Delete</div>
@@ -27,7 +27,7 @@
                             <input type="checkbox" id='survey-id-{{survey.id}}' class="m-auto">
                         </div>
                         <div class="bg-purple-50 p-4 border rounded col-span-4">
-                            <a href="#">{{survey.title}}</a>
+                            <a href="{% url 'survey' survey_id=survey.id %}">{{survey.title}}</a>
                         </div>
                         <div class="bg-purple-50 p-4 border rounded">4</div>
                     </div>
@@ -35,10 +35,10 @@
             {% else %}
                 <h1 class="text-center custom_label_text_one md:text-2xl">You dont have any surveys! :(</h1>
             {% endif %}
-        </article>
-    </article>
+        </section>
+    </section>
 
 
-</div>
+</article>
 
 {% endblock %}

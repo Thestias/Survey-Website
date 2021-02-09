@@ -13,7 +13,7 @@ urlpatterns = [
 
     # BELOW - PATHS FOR AJAX REQUESTS
     # This one recieves AJAX POST requests to add/edit surveys
-    path('edit/<survey_id>/submit/', views.ajax_edit_questions, name='ajax_edit_questions'),
+    path('edit/submit/<survey_id>/', views.ajax_edit_questions, name='ajax_edit_questions'),
 
     # When a User SUBMITS its answers
     #path('<survey_id>/submit', views.submit_survey, name='submit_survey')

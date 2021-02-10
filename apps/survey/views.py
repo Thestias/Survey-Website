@@ -49,6 +49,7 @@ def ajax_edit_questions(request, survey_id):
         return JsonResponse({'Error': 'Error while creating survey', 'Errors': question_formset.errors})
 
 
+@require_http_methods(['POST', 'GET'])
 def survey(request, survey_id):
     '''
     This function displays the title and description of a survey to a user,
@@ -73,6 +74,5 @@ def survey(request, survey_id):
         if request.user.id == survey.author.id:
             survey_edit_form = SurveyForm(instance=survey)
             context['survey_edit_form'] = survey_edit_form
-    print(context)
 
     return render(request, template_name='survey/survey.html', context=context)

@@ -57,5 +57,54 @@ window.onload = function () {
         }
     }
 
+    let empty_form;
+    let total_forms_id;
+    function add_option() {
+        document.querySelectorAll('#option-add').forEach(function (e) {
+            e.addEventListener('click', function () {
+                empty_form = e.parentNode.querySelector('.empty-option')
+                total_forms_id = empty_form.firstChild.getAttribute('for').replace('-__prefix__-option', '-TOTAL_FORMS')
+                empty_form = empty_form.cloneNode(true)
+                empty_form.classList.remove('hidden')
+                empty_form.classList.remove('empty-option')
+                empty_form.classList.add('option-wrapper')
+                amm_inputs = e.parentNode.querySelectorAll('input').length / 4 - 1
+
+                empty_form.innerHTML = empty_form.innerHTML.replaceAll('__prefix__', amm_inputs)
+
+                empty_form.querySelectorAll('label').forEach(function (e) {
+                    e.classList = 'inline-block text-xl font-mono font-bold text-purple-700 e mr-8'
+                })
+                e.insertAdjacentElement('beforebegin', empty_form)
+                document.querySelector('#' + total_forms_id).setAttribute('value', amm_inputs + 1)
+            })
+        })
+    }
+
+    function remove_option() {
+        document.querySelectorAll('#option-remove').forEach(function (e) {
+            e.addEventListener('click', function () {
+                let option_wrappers = e.parentNode.querySelectorAll('.option-wrapper')
+
+                if (option_wrappers.length != 1) {
+
+                    total_forms_id = e.parentNode.querySelector('.empty-option').firstChild.getAttribute('for').replace('-__prefix__-option', '-TOTAL_FORMS')
+                    amm_inputs = e.parentNode.querySelectorAll('.option-wrapper').length - 1
+
+                    let check_delete = e.parentNode.querySelector('.empty-option').firstChild.getAttribute('for').replace('-__prefix__-option', '-' + (amm_inputs) + '-DELETE')
+                    console.log(check_delete)
+                    document.querySelector('#' + check_delete).checked = true
+                    // document.querySelector('#' + total_forms_id).setAttribute('value', amm_inputs)
+                    option_wrappers[option_wrappers.length - 1].classList = 'hidden'
+
+
+                }
+
+            })
+        })
+    }
+
     update_survey()
+    add_option()
+    remove_option()
 } // ENDS ONLOAD

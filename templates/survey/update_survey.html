@@ -46,24 +46,29 @@
                    {{ form.nested.management_form }}
                    {{ form.nested.non_form_errors }}
                <div class="mt-4 bg-purple-100 p-4 border rounded">
-                   {% for nested_form in form.nested.forms %}
-                       {% for field in nested_form %}
-                            {% if field.errors %}
-                                <ol>
-                                {% for error in field.errors %}
-                                    <li><strong>{{ error|escape }}</strong></li>
-                                {% endfor %}
-                                </ol>
-                            {% endif %}
-                           {% if field.is_hidden != True %}
-                               <label for="{{field.id_for_label}}" class="inline-block text-xl font-mono font-bold text-purple-700 e mr-8">{{field.label}}</label>
-                               {{field}}
-                            {% else %}
-                               {{field}}
-                           {% endif %}
-                       {% endfor %}
-                       <br>
+                    <div class="empty-option hidden">{{form.nested.empty_form}}</div>
+                    {% for nested_form in form.nested.forms %}
+                        <div class="option-wrapper">
+                            {% for field in nested_form %}
+                                    {% if field.errors %}
+                                        <ol>
+                                        {% for error in field.errors %}
+                                            <li><strong>{{ error|escape }}</strong></li>
+                                        {% endfor %}
+                                        </ol>
+                                    {% endif %}
+                                {% if field.is_hidden != True %}
+                                    <label for="{{field.id_for_label}}" class="inline-block text-xl font-mono font-bold text-purple-700 e mr-8">{{field.label}}</label>
+                                    {{field}}
+                                    {% else %}
+                                    {{field}}
+                                {% endif %}
+                            {% endfor %}
+                            <br>
+                        </div>
                    {% endfor %}
+                    <div id="option-add" class="inline-block custom_button_one custom_button_one_add w-auto">Add Option</div>
+                    <div id="option-remove" class="inline-block custom_button_one custom_button_one_remove w-auto">Remove Option</div>
                 </div>
                {% endif %}
                <hr class="mb-6 mt-4">
@@ -97,21 +102,23 @@
 
             <!-- OPTION EMPTY FORM -->
             <div class="mt-4 bg-purple-100 p-4 border rounded">
-                {% for field in question_formset.forms.0.nested.empty_form %}
-                    {% if field.errors %}
-                        <ol>
-                        {% for error in field.errors %}
-                            <li><strong>{{ error|escape }}</strong></li>
-                        {% endfor %}
-                        </ol>
-                    {% endif %}
-                    {% if field.is_hidden != True %}
-                        <label for="{{field.id_for_label}}" class="inline-block text-xl font-mono font-bold text-purple-700 e mr-8">{{field.label}}</label>
-                        {{field}}
-                    {% else %}
-                        <input id="{{field.id_for_label}}" type="hidden" name="{{field.html_name}}">
-                    {% endif %}
-                {% endfor %}
+                <div id="empty-option-form">
+                    {% for field in question_formset.forms.0.nested.empty_form %}
+                        {% if field.errors %}
+                            <ol>
+                            {% for error in field.errors %}
+                                <li><strong>{{ error|escape }}</strong></li>
+                            {% endfor %}
+                            </ol>
+                        {% endif %}
+                        {% if field.is_hidden != True %}
+                            <label for="{{field.id_for_label}}" class="inline-block text-xl font-mono font-bold text-purple-700 e mr-8">{{field.label}}</label>
+                            {{field}}
+                        {% else %}
+                            <input id="{{field.id_for_label}}" type="hidden" name="{{field.html_name}}">
+                        {% endif %}
+                    {% endfor %}
+                </div>
             </div>
         <hr class="mb-6 mt-4">
         </div>

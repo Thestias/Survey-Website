@@ -62,7 +62,7 @@ window.onload = function () {
     function add_option() {
         document.querySelectorAll('#option-add').forEach(function (e) {
             e.addEventListener('click', function () {
-                empty_form = e.parentNode.querySelector('.empty-option')
+                empty_form = e.parentNode.querySelector('.empty-option') // The empty Option form that its copied
                 total_forms_id = empty_form.firstChild.getAttribute('for').replace('-__prefix__-option', '-TOTAL_FORMS')
                 empty_form = empty_form.cloneNode(true)
                 empty_form.classList.remove('hidden')
@@ -82,6 +82,11 @@ window.onload = function () {
     }
 
     function remove_option() {
+        /*
+        * This function hiddes Options and makes the DELETED checkbox marked so they are deleted from the 
+        * DB(on submit)
+        *
+        */
         document.querySelectorAll('#option-remove').forEach(function (e) {
             e.addEventListener('click', function () {
                 let option_wrappers = e.parentNode.querySelectorAll('.option-wrapper')
@@ -92,9 +97,7 @@ window.onload = function () {
                     amm_inputs = e.parentNode.querySelectorAll('.option-wrapper').length - 1
 
                     let check_delete = e.parentNode.querySelector('.empty-option').firstChild.getAttribute('for').replace('-__prefix__-option', '-' + (amm_inputs) + '-DELETE')
-                    console.log(check_delete)
                     document.querySelector('#' + check_delete).checked = true
-                    // document.querySelector('#' + total_forms_id).setAttribute('value', amm_inputs)
                     option_wrappers[option_wrappers.length - 1].classList = 'hidden'
 
 

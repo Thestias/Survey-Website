@@ -55,8 +55,7 @@ def survey(request, survey_id):
     to it's owner, also shows management tools
     '''
     survey = get_object_or_404(Survey, id=survey_id)
-    if request.user.id == survey.author.id:
-        question_edit_form = SurveyForm(instance=survey)
+    context = {'survey': survey}
 
     if request.method == 'POST':
         if 'delete' in request.POST:
@@ -64,12 +63,16 @@ def survey(request, survey_id):
             messages.info(request, 'Survey deleted!')
             return redirect('profile')
         else:
-            survey_data = SurveyForm(request.POST, instance=survey)
-            if survey_data.is_valid():
+            survey_edit_form = SurveyForm(request.POST, instance=survey)
+            if survey_edit_form.is_valid():
                 messages.success(request, 'Survey updated!')
-                survey_data.save()
+                survey_edit_form.save()
             else:
                 messages.error(request, 'Invalid form!')
+    else:
+        if request.user.id == survey.author.id:
+            survey_edit_form = SurveyForm(instance=survey)
+            context['survey_edit_form'] = survey_edit_form
+    print(context)
 
-    return render(request, template_name='survey/survey.html',
-                  context={'survey': survey, 'question_edit_form': question_edit_form or None})
+    return render(request, template_name='survey/survey.html', context=context)

@@ -24,7 +24,7 @@
                 <h1 class="my-4 custom_label_text_one md:text-2xl">Edit Survey!</h1>
                 <form method="POST" class="grid grid-cols-2">
                     {% csrf_token %}
-                    {% for field in question_edit_form %}
+                    {% for field in survey_edit_form %}
                         <div class="col-span-1">
                             {% if field.errors %}
                                 <ol>

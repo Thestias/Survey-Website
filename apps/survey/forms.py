@@ -30,10 +30,16 @@ class BaseChildrenFormset(BaseInlineFormSet):
         super(BaseChildrenFormset, self).add_fields(form, index)
 
     # save the formset in the 'nested' property
-        form.nested = OptionFormSet(
-            instance=form.instance, data=form.data if form.is_bound else None, files=form.files
-            if form.is_bound else None, prefix=f'option-{form.prefix}-{OptionFormSet.get_default_prefix()}',
-            form_kwargs={'participate': self.participate})
+        if self.participate:
+            form.nested = OptionAnswerFormSet(
+                instance=form.instance, data=form.data if form.is_bound else None, files=form.files
+                if form.is_bound else None, prefix=f'option-{form.prefix}-{OptionFormSet.get_default_prefix()}',
+                form_kwargs={'participate': self.participate})
+        else:
+            form.nested = OptionFormSet(
+                instance=form.instance, data=form.data if form.is_bound else None, files=form.files
+                if form.is_bound else None, prefix=f'option-{form.prefix}-{OptionFormSet.get_default_prefix()}',
+                form_kwargs={'participate': self.participate})
 
     def is_valid(self):
         result = super(BaseChildrenFormset, self).is_valid()
@@ -86,14 +92,27 @@ class OptionForm(ModelForm):
             self.fields['option'].required = False
         else:
             self.fields['option'].widget = CheckboxInput()
+            self.fields['option'].widget.attrs.update({'class': 'h-5 w-5'})
 
     class Meta:
         model = Option
         fields = ['option']
 
 
+# For EDITING Questions/Options
 QuestionFormSet = inlineformset_factory(
     Survey, Question, fields=('question',),
     form=QuestionForm, formset=BaseChildrenFormset, extra=1, can_delete=True)
 
-OptionFormSet = inlineformset_factory(Question, Option, fields=('option', ), form=OptionForm, extra=1, can_delete=True)
+OptionFormSet = inlineformset_factory(
+    Question, Option, fields=('option',),
+    form=OptionForm, extra=1, can_delete=True)
+
+# For ANSWERING Questions/Options
+QuestionAnswerFormSet = inlineformset_factory(
+    Survey, Question, fields=('question',),
+    form=QuestionForm, formset=BaseChildrenFormset, extra=0, can_delete=False)
+
+OptionAnswerFormSet = inlineformset_factory(
+    Question, Option, fields=('option',),
+    form=OptionForm, extra=0, can_delete=False)

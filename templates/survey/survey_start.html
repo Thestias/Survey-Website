@@ -7,9 +7,63 @@
     {% include 'navbar.html' %}
 
     <section class="bg-white w-3/5 mx-auto shadow-xl md:p-16 mt-8 text-center">
+    
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.management_form }}
+            {{ form.non_form_errors }}
 
-        cvsacsacaca
-
+            <!-- RENDERING QUESTION FORM -->
+            {% for form in form.forms %}
+            <div class="question-wrapper">
+            {% for field in form %}
+                    {% if field.errors %}
+                        <ol>
+                        {% for error in field.errors %}
+                            <li><strong>{{ error|escape }}</strong></li>
+                        {% endfor %}
+                        </ol>
+                    {% endif %}
+                {% if field.is_hidden != True %}
+                    <label id="{{field.id_for_label}}" class="inline-block text-2xl font-mono font-bold text-purple-700 e mr-8">{{field.value}}</label>
+                    {% else %}
+                        {{field}}
+                {% endif %}
+            {% endfor %}
+            <br>
+            <!-- RENDERING OPTION FORM -->
+            {% if form.nested %}
+                    {{ form.nested.management_form }}
+                    {{ form.nested.non_form_errors }}
+                <div class="mt-4 bg-purple-100 p-4 border rounded  grid grid-cols-2">
+                        {% for nested_form in form.nested.forms %}
+                            <div class="option-wrapper">
+                                {% for field in nested_form %}
+                                        {% if field.errors %}
+                                            <ol>
+                                            {% for error in field.errors %}
+                                                <li><strong>{{ error|escape }}</strong></li>
+                                            {% endfor %}
+                                            </ol>
+                                        {% endif %}
+                                    {% if field.is_hidden != True %}
+                                        <label for="{{field.id_for_label}}" class="inline-block text-xl font-mono font-bold text-purple-700 e mr-8">{{field.value}}</label>
+                                        <input id="{{field.id_for_label}}" type="checkbox" name="{{field.html_name}}" value="{{field.value}}">                               
+                                    {% else %}
+                                        {{field}}
+                                    {% endif %}
+                                {% endfor %}
+                                <br>
+                            </div>
+                    {% endfor %}
+                    </div>
+                {% endif %}
+            <hr class="mb-6 mt-4">
+            </div>
+            {% endfor %}
+            <button id="submit_button" type="submit" class="inline-block custom_button_one_purple custom_button_one w-36">Submit</button>
+            <div id="after_submit" class="inline-block"></div>
+        </form>
     </section>
 
 

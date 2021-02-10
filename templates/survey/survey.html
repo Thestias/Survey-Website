@@ -12,16 +12,16 @@
         <hr class="my-4">
         <p class=" custom_label_text_one text-lg md:text-2xl">{{survey.description}}</p>
         
-        <div class="my-12"><a href="{% url 'survey' survey_id=survey.id %}" class="custom_button_one custom_button_one_purple">Start Survey!</a></div>
+        <div class="my-12"><a href="{% url 'start_survey' survey_id=survey.id %}" class="custom_button_one custom_button_one_purple">Start Survey</a></div>
 
         {% if request.user.id == survey.author.id %}
             <hr class="my-4">
             <div id="owner-adm-tools">
                 <div class="my-12 inline-block">
-                    <a href="{% url 'edit_questions' survey_id=survey.id %}" class="custom_button_one custom_button_one_add">Edit Questions!</a>
+                    <a href="{% url 'edit_questions' survey_id=survey.id %}" class="custom_button_one custom_button_one_add">Edit Questions</a>
                 </div>
 
-                <h1 class="my-4 custom_label_text_one md:text-2xl">Edit Survey!</h1>
+                <h1 class="my-4 custom_label_text_one md:text-2xl">Edit Survey</h1>
                 <form method="POST" class="grid grid-cols-2">
                     {% csrf_token %}
                     {% for field in survey_edit_form %}

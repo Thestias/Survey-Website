@@ -22,7 +22,7 @@ def edit_questions(request, survey_id):
         messages.error(request, 'You are not the owner of this survey!')
         return redirect('register')
 
-    question_formset = QuestionFormSet(instance=survey_instance)
+    question_formset = QuestionFormSet(instance=survey_instance, participate=False)
 
     return render(
         request, 'survey/update_survey.html',
@@ -76,3 +76,8 @@ def survey(request, survey_id):
             context['survey_edit_form'] = survey_edit_form
 
     return render(request, template_name='survey/survey.html', context=context)
+
+
+def start_survey(request, survey_id):
+    survey = get_object_or_404(Survey, id=survey_id)
+    return render(request, template_name='survey/survey_start.html')

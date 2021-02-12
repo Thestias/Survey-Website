@@ -1,8 +1,8 @@
-from django.forms import inlineformset_factory, ModelForm, BaseInlineFormSet, CheckboxInput
+from django import forms
 from .models import Survey, Question, Option, Submission, Answer
 
 
-class SurveyForm(ModelForm):
+class SurveyForm(forms.ModelForm):
     '''
     This form applies TailwindCSS styles to the input fields.
     '''
@@ -21,7 +21,7 @@ class SurveyForm(ModelForm):
         fields = ('title', 'description', 'is_active')
 
 
-class BaseChildrenFormset(BaseInlineFormSet):
+class BaseChildrenFormset(forms.BaseInlineFormSet):
     def __init__(self, *args, participate, **kwargs):
         super().__init__(*args, **kwargs)
         self.participate = participate
@@ -31,10 +31,14 @@ class BaseChildrenFormset(BaseInlineFormSet):
 
     # save the formset in the 'nested' property
         if self.participate:
-            form.nested = OptionAnswerFormSet(
-                instance=form.instance, data=form.data if form.is_bound else None, files=form.files
-                if form.is_bound else None, prefix=f'option-{form.prefix}-{OptionFormSet.get_default_prefix()}',
-                form_kwargs={'participate': self.participate})
+            form_instance_id = str(form.instance.id)  # Used in the templates to differentiate differents OptionForms
+
+            # The ModelChoiceField is added here to use the form.instance.id for the queryset, it overwrites the field from OptionForm
+            OptionForm.base_fields['option'] = forms.ModelChoiceField(
+                queryset=Option.objects.filter(question=form.instance.id),
+                widget=forms.RadioSelect)
+
+            form.nested = OptionForm(participate=True)
         else:
             form.nested = OptionFormSet(
                 instance=form.instance, data=form.data if form.is_bound else None, files=form.files
@@ -63,7 +67,7 @@ class BaseChildrenFormset(BaseInlineFormSet):
         return result
 
 
-class QuestionForm(ModelForm):
+class QuestionForm(forms.ModelForm):
     '''
     This form applies TailwindCSS styles to the input fields.
     '''
@@ -79,7 +83,7 @@ class QuestionForm(ModelForm):
         fields = ['question']
 
 
-class OptionForm(ModelForm):
+class OptionForm(forms.ModelForm):
     '''
     This form applies TailwindCSS styles to the input fields.
     '''
@@ -90,35 +94,33 @@ class OptionForm(ModelForm):
         if participate is False:
             self.fields['option'].widget.attrs.update({'class': 'custom_input_one'})
             self.fields['option'].required = False
-        else:
-            self.fields['option'].widget = CheckboxInput()
-            self.fields['option'].widget.attrs.update({'class': 'h-5 w-5'})
 
     class Meta:
         model = Option
         fields = ['option']
+        widget = {'option': forms.CheckboxInput}
 
 
 # For EDITING Questions/Options
-QuestionFormSet = inlineformset_factory(
+QuestionFormSet = forms.inlineformset_factory(
     Survey, Question, fields=('question',),
     form=QuestionForm, formset=BaseChildrenFormset, extra=1, can_delete=True)
 
-OptionFormSet = inlineformset_factory(
+OptionFormSet = forms.inlineformset_factory(
     Question, Option, fields=('option',),
     form=OptionForm, extra=1, can_delete=True)
 
 # For ANSWERING Questions/Options
-QuestionAnswerFormSet = inlineformset_factory(
+QuestionAnswerFormSet = forms.inlineformset_factory(
     Survey, Question, fields=('question',),
     form=QuestionForm, formset=BaseChildrenFormset, extra=0, can_delete=False)
 
-OptionAnswerFormSet = inlineformset_factory(
+OptionAnswerFormSet = forms.inlineformset_factory(
     Question, Option, fields=('option',),
     form=OptionForm, extra=0, can_delete=False)
 
 
-class AnswerForm(ModelForm):
+class AnswerForm(forms.ModelForm):
     class Meta:
         model = Answer
-        fields = ('submission', 'option',)
+        fields = ('submission', 'option', 'question',)

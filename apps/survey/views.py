@@ -80,35 +80,40 @@ def survey(request, survey_id):
 
 
 def start_survey(request, survey_id):
+    '''
+    This function renders the survey for the users to participate.
+    What is does is:
+        Renders the Survey and it's options
+        Gets the POST data, creates a Submission instance and a AnswerForm(for each question) and saves it.
+
+    In the template for this view you may see that the value of the radio input is shown as field.data.value.value
+    for some reason Django wouldnt let me access it as field.value so i had to do that.
+    '''
     context = {}
     survey = get_object_or_404(Survey, id=survey_id)
     question_answering = QuestionAnswerFormSet(instance=survey, participate=True)
+
     if request.method == 'POST':
-        # print(request.POST)
         submission = Submission.objects.create(survey=survey)
         for k, v in request.POST.items():
-            if k.endswith('option'):
+            if k.startswith('option'):
 
-                option_id = k.split('-')
-                option_id[-1] = 'id'
-                option_id = '-'.join(option_id)
-                option_id = request.POST.get(option_id)
+                option_id = request.POST[k]  # option-NUMBER   is the k
+                question_id = k.split('-')[-1]  # option-NUMBER  Number is the question ID
 
-                question_id = k.split('-')
-                question_id[-1] = 'question'
-                question_id = '-'.join(question_id)
-                opcion = Option.objects.get(id=option_id)
-                print(option_id)
-                print(opcion)
-                print(submission)
-                test = {'submission': submission.id, 'option': option_id}
-                form_ans = AnswerForm(test)
+                answer_data = {'submission': submission.id,
+                               'option': Option.objects.get(id=option_id),
+                               'question': Question.objects.get(id=question_id)}
+                form_ans = AnswerForm(answer_data)
                 if form_ans.is_valid():
                     form_ans.save()
                 else:
                     print(form_ans.errors)
+                    messages.error(request, 'We had a unexpected error')
+        else:
+            messages.success(request, 'Survey submitted')
+            return redirect('survey', survey_id=survey_id)
 
     context['form'] = question_answering
-    # context['form_test'] = AnswerForm()
     return render(request, template_name='survey/survey_start.html',
                   context=context)

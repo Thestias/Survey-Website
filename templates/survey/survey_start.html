@@ -15,51 +15,38 @@
 
             <!-- RENDERING QUESTION FORM -->
             {% for form in form.forms %}
-            <div class="question-wrapper">
-            {% for field in form %}
-                    {% if field.errors %}
-                        <ol>
-                        {% for error in field.errors %}
-                            <li><strong>{{ error|escape }}</strong></li>
-                        {% endfor %}
-                        </ol>
-                    {% endif %}
-                {% if field.is_hidden != True %}
-                    <label id="{{field.id_for_label}}" class="inline-block text-2xl font-mono font-bold text-purple-700 e mr-8">{{field.value}}</label>
-                    {% else %}
-                        {{field}}
-                {% endif %}
-            {% endfor %}
-            <br>
-            <!-- RENDERING OPTION FORM -->
-            {% if form.nested %}
-                    {{ form.nested.management_form }}
-                    {{ form.nested.non_form_errors }}
-                <div class="mt-4 bg-purple-100 p-4 border rounded  grid grid-cols-2">
-                        {% for nested_form in form.nested.forms %}
-                            <div class="option-wrapper">
-                                {% for field in nested_form %}
-                                        {% if field.errors %}
-                                            <ol>
-                                            {% for error in field.errors %}
-                                                <li><strong>{{ error|escape }}</strong></li>
-                                            {% endfor %}
-                                            </ol>
-                                        {% endif %}
-                                    {% if field.is_hidden != True %}
-                                        <label for="{{field.id_for_label}}" class="inline-block text-xl font-mono font-bold text-purple-700 e mr-8">{{field.value}}</label>
-                                        <input id="{{field.id_for_label}}" type="checkbox" name="{{field.html_name}}" value="{{field.value}}">                               
-                                    {% else %}
-                                        {{field}}
-                                    {% endif %}
-                                {% endfor %}
-                                <br>
-                            </div>
+                <div class="question-wrapper">
+                    {% for field in form %}
+
+                        {% if field.errors %}
+                            <ol>
+                            {% for error in field.errors %}
+                                <li><strong>{{ error|escape }}</strong></li>
+                            {% endfor %}
+                            </ol>
+                        {% endif %}
+                        {% if field.is_hidden != True %}
+                            <label id="{{field.id_for_label}}" class="inline-block text-2xl font-mono font-bold text-purple-700 mr-8">{{field.value}}</label>
+                        {% else %}
+                            {{field}}
+                        {% endif %}
                     {% endfor %}
-                    </div>
-                {% endif %}
-            <hr class="mb-6 mt-4">
-            </div>
+
+                    {% if form.nested %}
+                            <div class="mt-4 bg-purple-100 p-4 border rounded">
+                                {% for choice in form.nested %}
+                                    {% for field in choice %}
+                                        <label for="{{ field.id_for_label }}" class="block text-xl font-mono font-bold text-purple-700 mr-8">
+                                            {{ field.choice_label }}
+                                            <span class="radio">                                                <input id="{{field.id_for_label}}" type="radio" name="option-{{form.instance_id}}" value="{{field.data.value.value}}" required class="form-radio h-5 w-5 text-purple-600">
+                                            </span>
+                                        </label>
+                                    {% endfor %}
+
+                                {% endfor %}
+                            </div>
+                    {% endif %}
+                </div>
             {% endfor %}
             <button id="submit_button" type="submit" class="inline-block custom_button_one_purple custom_button_one w-36">Submit</button>
             <div id="after_submit" class="inline-block"></div>

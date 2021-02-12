@@ -37,4 +37,5 @@ class Submission(models.Model):
 
 class Answer(models.Model):
     submission = models.ForeignKey(Submission, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
     option = models.ForeignKey(Option, on_delete=models.CASCADE)

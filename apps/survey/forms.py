@@ -31,7 +31,7 @@ class BaseChildrenFormset(forms.BaseInlineFormSet):
 
     # save the formset in the 'nested' property
         if self.participate:
-            form_instance_id = str(form.instance.id)  # Used in the templates to differentiate differents OptionForms
+            form.instance_id = form.instance.id  # Used in the templates to differentiate differents OptionForms
 
             # The ModelChoiceField is added here to use the form.instance.id for the queryset, it overwrites the field from OptionForm
             OptionForm.base_fields['option'] = forms.ModelChoiceField(

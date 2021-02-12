@@ -10,7 +10,7 @@ from django.contrib import messages
 
 
 @require_http_methods(['GET'])
-@login_required(login_url='/login')
+@login_required
 def edit_questions(request, survey_id):
     '''
     This function allows the OWNER of a Survey to edit all of it's questions
@@ -30,7 +30,7 @@ def edit_questions(request, survey_id):
 
 
 @require_http_methods(['POST'])
-@login_required(login_url='/login')
+@login_required
 def ajax_edit_questions(request, survey_id):
     '''
     This function recieves the data from edit_questions() trought

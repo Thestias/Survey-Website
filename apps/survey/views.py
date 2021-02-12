@@ -25,7 +25,7 @@ def edit_questions(request, survey_id):
     question_formset = QuestionFormSet(instance=survey_instance, participate=False)
 
     return render(
-        request, 'survey/test.html',
+        request, 'survey/edit_questions.html',
         context={'form': question_formset, 'survey_id': survey_instance.id})
 
 

@@ -42,7 +42,7 @@ def ajax_edit_questions(request, survey_id):
         return JsonResponse({'Error': 'This Survey doesnt exist!'}, status=404)
 
     if survey_instance.author.id != request.user.id:  # Checking ownership
-        return JsonResponse({'Error': 'You are not the owner of this survey!'})
+        return JsonResponse({'Error': 'You are not the owner of this survey!'}, status=401)
 
     question_formset = QuestionFormSet(request.POST, instance=survey_instance, participate=False)
 
@@ -50,7 +50,7 @@ def ajax_edit_questions(request, survey_id):
         question_formset.save()
         return JsonResponse({'Success': 'Survey updated/created succesfully'})
     else:
-        return JsonResponse({'Error': 'Error while creating survey', 'Errors': question_formset.errors})
+        return JsonResponse({'Error': 'Error while creating survey', 'Errors': question_formset.errors}, status=406)
 
 
 @require_http_methods(['POST', 'GET'])

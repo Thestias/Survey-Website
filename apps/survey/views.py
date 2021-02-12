@@ -36,7 +36,10 @@ def ajax_edit_questions(request, survey_id):
     This function recieves the data from edit_questions() trought
     a AJAX POST request
     '''
-    survey_instance = get_object_or_404(Survey, id=survey_id)
+    try:
+        survey_instance = Survey.objects.get(pk=survey_id)
+    except Survey.DoesNotExist:
+        return JsonResponse({'Error': 'This Survey doesnt exist!'}, status=404)
 
     if survey_instance.author.id != request.user.id:  # Checking ownership
         return JsonResponse({'Error': 'You are not the owner of this survey!'})

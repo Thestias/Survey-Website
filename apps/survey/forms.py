@@ -116,3 +116,9 @@ QuestionAnswerFormSet = inlineformset_factory(
 OptionAnswerFormSet = inlineformset_factory(
     Question, Option, fields=('option',),
     form=OptionForm, extra=0, can_delete=False)
+
+
+class AnswerForm(ModelForm):
+    class Meta:
+        model = Answer
+        fields = ('submission', 'option',)

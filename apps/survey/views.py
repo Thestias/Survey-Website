@@ -1,7 +1,7 @@
-from .forms import QuestionFormSet, OptionFormSet, SurveyForm
+from .forms import QuestionFormSet, OptionFormSet, SurveyForm, QuestionAnswerFormSet, AnswerForm
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Survey, Option, Question
+from .models import Survey, Option, Question, Answer, Submission
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.contrib import messages
@@ -25,8 +25,8 @@ def edit_questions(request, survey_id):
     question_formset = QuestionFormSet(instance=survey_instance, participate=False)
 
     return render(
-        request, 'survey/update_survey.html',
-        context={'question_formset': question_formset, 'survey_id': survey_instance.id})
+        request, 'survey/test.html',
+        context={'form': question_formset, 'survey_id': survey_instance.id})
 
 
 @require_http_methods(['POST'])
@@ -41,7 +41,8 @@ def ajax_edit_questions(request, survey_id):
     if survey_instance.author.id != request.user.id:  # Checking ownership
         return JsonResponse({'Error': 'You are not the owner of this survey!'})
 
-    question_formset = QuestionFormSet(request.POST, instance=survey_instance)
+    question_formset = QuestionFormSet(request.POST, instance=survey_instance, participate=False)
+
     if question_formset.is_valid():
         question_formset.save()
         return JsonResponse({'Success': 'Survey updated/created succesfully'})
@@ -79,5 +80,35 @@ def survey(request, survey_id):
 
 
 def start_survey(request, survey_id):
+    context = {}
     survey = get_object_or_404(Survey, id=survey_id)
-    return render(request, template_name='survey/survey_start.html')
+    question_answering = QuestionAnswerFormSet(instance=survey, participate=True)
+    if request.method == 'POST':
+        # print(request.POST)
+        submission = Submission.objects.create(survey=survey)
+        for k, v in request.POST.items():
+            if k.endswith('option'):
+
+                option_id = k.split('-')
+                option_id[-1] = 'id'
+                option_id = '-'.join(option_id)
+                option_id = request.POST.get(option_id)
+
+                question_id = k.split('-')
+                question_id[-1] = 'question'
+                question_id = '-'.join(question_id)
+                opcion = Option.objects.get(id=option_id)
+                print(option_id)
+                print(opcion)
+                print(submission)
+                test = {'submission': submission.id, 'option': option_id}
+                form_ans = AnswerForm(test)
+                if form_ans.is_valid():
+                    form_ans.save()
+                else:
+                    print(form_ans.errors)
+
+    context['form'] = question_answering
+    # context['form_test'] = AnswerForm()
+    return render(request, template_name='survey/survey_start.html',
+                  context=context)

@@ -3,27 +3,22 @@
 
 {% block content_1 %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
-<script src="{% static 'js/update_survey.js' %}"></script>
-
+<script src="{% static 'js/test.js' %}"></script>
 <!-- HOLDS THE SURVEY ID VARIABLE FOR JS -->
 {{ survey_id|json_script:"survey_id" }}
 
-<div class="bg-purple-50 bg-opacity-75 min-h-screen">
+<article class="bg-purple-50 bg-opacity-75 min-h-screen">
     {% include 'navbar.html' %}
-    <article id="article-wrapper" class="bg-white w-3/5 mx-auto shadow-xl md:p-16 mt-8">
-        <div class="grid grid-cols-2">
-            <h1 class="grid-start-1 ml-16 mt-4 custom_label_text_one md:text-4xl">Create your
-                Survey!</h1>
-            <img class="grid-start-2 max-h-40" src="{% static 'media/undraw_Accept_request_re_d81h.svg' %}"
-                alt='undraw-at-work'>
-        </div>
-        <form id="form" method="POST" class="" class="">
+
+    <section class="bg-white w-3/5 mx-auto shadow-xl md:p-16 mt-8 text-center">
+
+        <form id='form' method="POST">
             {% csrf_token %}
-            {{ question_formset.management_form }}
-            {{ question_formset.non_form_errors }}
+            {{ form.management_form }}
+            {{ form.non_form_errors }}
 
             <!-- RENDERING QUESTION FORM -->
-            {% for form in question_formset.forms %}
+            {% for form in form.forms %}
             <div class="question-wrapper">
                {% for field in form %}
                     {% if field.errors %}
@@ -43,12 +38,11 @@
                <br>
                <!-- RENDERING OPTION FORM -->
                {% if form.nested %}
-                   {{ form.nested.management_form }}
-                   {{ form.nested.non_form_errors }}
-               <div class="mt-4 bg-purple-100 p-4 border rounded">
-                    <div class="empty-option hidden">{{form.nested.empty_form}}</div>
+               <div class="option-wrapper mt-4 bg-purple-100 p-4 border rounded">
+                    {{ form.nested.management_form }}
+                    {{ form.nested.non_form_errors }}
                     {% for nested_form in form.nested.forms %}
-                        <div class="option-wrapper">
+                        <div class="option">
                             {% for field in nested_form %}
                                     {% if field.errors %}
                                         <ol>
@@ -77,33 +71,39 @@
             <!-- END QUESTION FORMS -->
             <div id="question-add" class="inline-block custom_button_one custom_button_one_add w-40">Add Question</div>
             <div id="question-remove" class="inline-block custom_button_one custom_button_one_remove w-46">Remove Question</div>
-            <hr>
+            <hr class="mb-6 mt-4">
             <button id="submit_button" type="submit" class="inline-block custom_button_one_purple custom_button_one w-36">Submit</button>
             <div id="after_submit" class="inline-block"></div>
         </form>
+    
+        <!-- BEGIN EMPTY FORM! -->
+        <div id='empty-form' class="hidden">
 
-        <!-- Empty Form for JS -->
-        <div id="empty-form" class="hidden">
-            {% for field in question_formset.empty_form %}
-                {% if field.errors %}
-                    <ol>
-                    {% for error in field.errors %}
-                        <li><strong>{{ error|escape }}</strong></li>
-                    {% endfor %}
-                    </ol>
-                {% endif %}
-                {% if field.is_hidden != True %}
-                    <label for="{{field.id_for_label}}" class="inline-block text-xl font-mono font-bold text-purple-700 e mr-8">{{field.label}}</label>
-                    {{field}}
-                {% else %}
-                    {{field}}
-                {% endif %}
-            {% endfor %}
+            <!-- QUESTION FORM -->
+            <div class="question-empty-form">
+                {% for field in form.empty_form %}
+                    {% if field.errors %}
+                        <ol>
+                        {% for error in field.errors %}
+                            <li><strong>{{ error|escape }}</strong></li>
+                        {% endfor %}
+                        </ol>
+                    {% endif %}
+                    {% if field.is_hidden != True %}
+                        <label for="{{field.id_for_label}}" class="inline-block text-xl font-mono font-bold text-purple-700 e mr-8">{{field.label}}</label>
+                        {{field}}
+                    {% else %}
+                        {{field}}
+                    {% endif %}
+                {% endfor %}
+            </div>
 
-            <!-- OPTION EMPTY FORM -->
-            <div class="mt-4 bg-purple-100 p-4 border rounded">
-                <div id="empty-option-form">
-                    {% for field in question_formset.forms.0.nested.empty_form %}
+            <!-- OPTION FORM -->
+            <div class="empty-option-form option-wrapper mt-4 bg-purple-100 p-4 border rounded">
+                {{form.forms.0.nested.management_form}}
+                {{form.forms.0.nested.nested.non_form_errors }}
+                <div class="option">
+                    {% for field in form.forms.0.nested.empty_form %}
                         {% if field.errors %}
                             <ol>
                             {% for error in field.errors %}
@@ -119,11 +119,17 @@
                         {% endif %}
                     {% endfor %}
                 </div>
+                <hr>
+                <div id="option-add" class="inline-block custom_button_one custom_button_one_add w-auto">Add Option</div>
+                <div id="option-remove" class="inline-block custom_button_one custom_button_one_remove w-auto">Remove Option</div>
             </div>
-        <hr class="mb-6 mt-4">
         </div>
+    
+    </section>
 
-    </article>
-</div>
+
+</article>
+
+
 
 {% endblock %}

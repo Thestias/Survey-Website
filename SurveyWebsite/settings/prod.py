@@ -1,6 +1,12 @@
 from .base import *
+from dotenv import load_dotenv
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# Loading Dot-Enviroment Variables
+dotenv_path = os.path.join(os.path.dirname(BASE_DIR), '.env')
+load_dotenv(dotenv_path)
+# SECURITY WARNING: keep the secret key used in production secret!
+
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 DEBUG = False
 
 ALLOWED_HOSTS = []

@@ -1,30 +1,30 @@
 ## Survey Website
 
-***
+
 This is a simple site meant to make simple surveys
 
-### Screnshots
-***
+## Screnshots
 
-+ #### Register
+
++ ### Register
 ![Register](https://i.imgur.com/UMNagzp.png)
 
-+ #### Survey
++ ### Survey
 ![Survey](https://i.imgur.com/EPjqoBk.png)
 
-+ #### Survey Example
++ ### Survey Example
 ![Survey answer](https://i.imgur.com/SVR1vNw.png)
 
-+ #### Profile
++ ### Profile
 ![Profile]()
 
-### How to build.
-***
+## How to build.
+
 Requeriments:
     Django >= 3.1.5
 
 ### Instructions to run
-***
+
 ```
 git clone https://github.com/Thestias/Survey-Website.git
 
@@ -36,3 +36,7 @@ python manage.py migrate --settings=SurveyWebsite.settings.dev
 
 python manage.py runserver --settings=SurveyWebsite.settings.dev
 ```
+
+## Authors
+
++ **Conrado Franceschi** - Backend and Frontend

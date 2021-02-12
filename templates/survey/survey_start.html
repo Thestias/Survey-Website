@@ -15,7 +15,7 @@
 
             <!-- RENDERING QUESTION FORM -->
             {% for form in form.forms %}
-                <div class="question-wrapper">
+                <div class="question-wrapper mb-8">
                     {% for field in form %}
 
                         {% if field.errors %}
@@ -36,11 +36,13 @@
                             <div class="mt-4 bg-purple-100 p-4 border rounded">
                                 {% for choice in form.nested %}
                                     {% for field in choice %}
-                                        <label for="{{ field.id_for_label }}" class="block text-xl font-mono font-bold text-purple-700 mr-8">
-                                            {{ field.choice_label }}
-                                            <span class="radio">                                                <input id="{{field.id_for_label}}" type="radio" name="option-{{form.instance_id}}" value="{{field.data.value.value}}" required class="form-radio h-5 w-5 text-purple-600">
-                                            </span>
-                                        </label>
+                                        <div class="grid grid-cols-2 border bg-purple-50 p-2">
+                                            <label for="{{ field.id_for_label }}-{{form.instance_id}}" class="w-full text-xl font-mono font-bold text-purple-700 ml-8">
+                                                {{ field.choice_label }}
+                                            </label>
+                                            <span class="radio"><input id="{{field.id_for_label}}-{{form.instance_id}}" type="radio" name="option-{{form.instance_id}}" value="{{field.data.value.value}}" required class="w-full text-purple-600"></span>
+                                        </div>
+                                        <br>
                                     {% endfor %}
 
                                 {% endfor %}

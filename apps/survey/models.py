@@ -29,6 +29,9 @@ class Option(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     option = models.CharField(max_length=256)
 
+    def __str__(self):
+        return self.option
+
 
 class Submission(models.Model):
     survey = models.ForeignKey(Survey, on_delete=models.CASCADE)

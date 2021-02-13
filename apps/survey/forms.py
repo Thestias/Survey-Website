@@ -11,9 +11,7 @@ class SurveyForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.label_suffix = ''
         self.fields['title'].widget.attrs.update({'class': 'custom_input_one'})
-        self.fields['title'].required = False
         self.fields['description'].widget.attrs.update({'class': 'custom_input_one'})
-        self.fields['description'].required = False
         self.fields['is_active'].label = 'Active?'
 
     class Meta:

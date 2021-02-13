@@ -24,9 +24,8 @@ def edit_questions(request, survey_id):
 
     question_formset = QuestionFormSet(instance=survey_instance, participate=False)
 
-    return render(
-        request, 'survey/edit_questions.html',
-        context={'form': question_formset, 'survey_id': survey_instance.id})
+    return render(request, 'survey/edit_questions.html',
+                  context={'form': question_formset, 'survey_id': survey_instance.id})
 
 
 @require_http_methods(['POST'])
@@ -72,6 +71,8 @@ def survey(request, survey_id):
             if survey_edit_form.is_valid():
                 messages.success(request, 'Survey updated!')
                 survey_edit_form.save()
+                survey_edit_form = SurveyForm(instance=survey)
+                context['survey_edit_form'] = survey_edit_form
             else:
                 messages.error(request, 'Invalid form!')
     else:

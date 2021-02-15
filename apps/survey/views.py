@@ -5,6 +5,10 @@ from .models import Survey, Option, Question, Answer, Submission
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.contrib import messages
+from django.db.models import Count, F, Sum
+import itertools
+import json
+
 
 # Create your views here.
 
@@ -119,5 +123,37 @@ def start_survey(request, survey_id):
             return redirect('survey', survey_id=survey_id)
 
     context['form'] = question_answering
-    return render(request, template_name='survey/survey_start.html',
-                  context=context)
+    return render(request, template_name='survey/survey_start.html', context=context)
+
+
+@require_http_methods(['GET'])
+@login_required
+def survey_stats(request, survey_id):
+    submission_data = Answer.objects.filter(
+        submission__survey_id=survey_id).values(
+        'question__question', 'option__option').annotate(
+        Count('option'))
+    if len(submission_data) != 0:
+        datasets = [{}]
+        for key, group in itertools.groupby(list(submission_data), lambda x: x['question__question']):
+            datasets[0][key] = list(group)
+
+        final_data = {}
+
+        for question_dict in datasets:  # List
+            for key, value in question_dict.items():
+                list_data = []
+                list_options = []
+                final_data[key] = []
+                for dict_data in value:
+                    for option_key, option_value in dict_data.items():
+                        if option_key.endswith('option'):
+                            list_options.append(option_value)
+                        if option_key.endswith('count'):
+                            list_data.append(option_value)
+                else:
+                    final_data[key].append(list_options)
+                    final_data[key].append(list_data)
+    else:
+        final_data = None
+    return render(request, template_name='survey/survey_stats.html', context={'submission_data': final_data})

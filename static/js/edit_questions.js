@@ -37,6 +37,7 @@ window.onload = function () {
         let question_forms = document.querySelectorAll('.question-wrapper')
         if (question_forms.length != 1) {
             question_forms[question_forms.length - 1].remove()
+            document.querySelector('#id_question_set-TOTAL_FORMS').setAttribute('value', document.querySelectorAll('.question-wrapper').length)
         }
     })
 

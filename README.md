@@ -16,7 +16,10 @@ This is a simple site meant to make simple surveys
 ![Survey answer](https://i.imgur.com/SVR1vNw.png)
 
 + ### Profile
-![Profile]()
+![Profile](https://i.imgur.com/9mgtjnw.png)
+
++ ## Stats Page
+![Stats](https://i.imgur.com/6ds7431.png)
 
 ## How to build.
 
@@ -30,11 +33,11 @@ git clone https://github.com/Thestias/Survey-Website.git
 
 cd Survey-Website
 
-python manage.py makemigrations --setings=SurveyWebsite.settings.dev
+python manage.py makemigrations
 
-python manage.py migrate --settings=SurveyWebsite.settings.dev
+python manage.py migrate
 
-python manage.py runserver --settings=SurveyWebsite.settings.dev
+python manage.py runserver
 ```
 
 ## Authors

@@ -3,6 +3,14 @@
 
 This is a simple site meant to make simple surveys
 
+
+## Built with:
+
+
++ Django
++ Javascript
++ ChartJS
+
 ## Screnshots
 
 
@@ -18,7 +26,7 @@ This is a simple site meant to make simple surveys
 + ### Profile
 ![Profile](https://i.imgur.com/9mgtjnw.png)
 
-+ ## Stats Page
++ ### Stats Page
 ![Stats](https://i.imgur.com/6ds7431.png)
 
 ## How to build.

@@ -34,7 +34,7 @@ class BaseChildrenFormset(forms.BaseInlineFormSet):
             # The ModelChoiceField is added here to use the form.instance.id for the queryset, it overwrites the field from OptionForm
             OptionForm.base_fields['option'] = forms.ModelChoiceField(
                 queryset=Option.objects.filter(question=form.instance.id),
-                widget=forms.RadioSelect)
+                widget=forms.RadioSelect, empty_label=None)
 
             form.nested = OptionForm(participate=True)
         else:
@@ -74,7 +74,6 @@ class QuestionForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.label_suffix = ''
         self.fields['question'].widget.attrs.update({'class': 'custom_input_one'})
-        self.fields['question'].required = False
 
     class Meta:
         model = Question
@@ -91,12 +90,10 @@ class OptionForm(forms.ModelForm):
         self.label_suffix = ''
         if participate is False:
             self.fields['option'].widget.attrs.update({'class': 'custom_input_one'})
-            self.fields['option'].required = False
 
     class Meta:
         model = Option
         fields = ['option']
-        widget = {'option': forms.CheckboxInput}
 
 
 # For EDITING Questions/Options
@@ -114,8 +111,7 @@ QuestionAnswerFormSet = forms.inlineformset_factory(
     form=QuestionForm, formset=BaseChildrenFormset, extra=0, can_delete=False)
 
 OptionAnswerFormSet = forms.inlineformset_factory(
-    Question, Option, fields=('option',),
-    form=OptionForm, extra=0, can_delete=False)
+    Question, Option, form=OptionForm, extra=0, can_delete=False)
 
 
 class AnswerForm(forms.ModelForm):

@@ -18,12 +18,12 @@
     {% endfor %}
   {% endif %}
 
-  <div class="hidden md:grid md:col-end-2 justify-items-center row-auto h-4/5 mt-20 text-purple-700 text-xl font-mono font-bold text-justify">
-    <h1 class="ml-16 text-2xl">Create Simple Surveys Fast!</h1>
+  <div class="hidden md:grid md:col-end-2 justify-items-center row-auto h-4/5 mt-20 lg:mt-16 text-purple-700 font-mono font-bold text-justify">
+    <h1 class="ml-16 text-xl md:text-2xl lg:text-3xl">Create Simple Surveys Fast!</h1>
     <img class="max-h-96" src='{% static "media/undraw_At_work_re_qotl.svg" %}' alt="undraw-at-work">
-    <a href="{% url 'login' %}">or Login!</a>
+    
   </div>
-  <div class="grid justify-items-center row-auto col-start-1 col-end-1 md:col-start-2 md:col-end-3 h-4/5 mt-14">
+  <div class="grid justify-items-center row-auto col-start-1 col-end-1 md:col-start-2 md:col-end-3 h-4/5 mt-14 lg:mt-10">
     <h1 class="md:hidden underline text-2xl font-mono font-bold text-purple-700">Create Simple Surveys Fast!</h1>
     <form method="POST" class="mt-8 text-xl font-mono font-bold">
       {% csrf_token %}
@@ -34,6 +34,7 @@
       </div>
       {% endfor %}
       <button class="ml-16 bg-purple-700 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-purple-200 hover:text-purple-700 focus:outline-none focus:shadow-outline">Register</button>
+      <a href="{% url 'login' %}" class="block ml-16 mt-2 text-purple-700">or Login!</a>
     </form>
   </div>
 </article>

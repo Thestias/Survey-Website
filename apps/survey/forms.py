@@ -111,7 +111,7 @@ QuestionAnswerFormSet = forms.inlineformset_factory(
     form=QuestionForm, formset=BaseChildrenFormset, extra=0, can_delete=False)
 
 OptionAnswerFormSet = forms.inlineformset_factory(
-    Question, Option, form=OptionForm, extra=0, can_delete=False)
+    Question, Option, fields=('option',), form=OptionForm, extra=0, can_delete=False)
 
 
 class AnswerForm(forms.ModelForm):

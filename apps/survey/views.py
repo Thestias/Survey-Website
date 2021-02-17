@@ -94,7 +94,7 @@ def start_survey(request, survey_id):
         Renders the Survey and it's options
         Gets the POST data, creates a Submission instance and a AnswerForm(for each question) and saves it.
 
-    In the template for this view you may see that the value of the radio input is shown as field.data.value.value
+    In the template for this view you may see that the value of the radio input is shown as field.data.value
     for some reason Django wouldnt let me access it as field.value so i had to do that.
     '''
     context = {}
@@ -102,25 +102,29 @@ def start_survey(request, survey_id):
     question_answering = QuestionAnswerFormSet(instance=survey, participate=True)
 
     if request.method == 'POST':
-        submission = Submission.objects.create(survey=survey)
-        for k, v in request.POST.items():
-            if k.startswith('option'):
+        if 'question_set-TOTAL_FORMS' in request.POST.keys():  # Checks that the formset has been properly POSTed
+            submission = Submission.objects.create(survey=survey)
+            for k, v in request.POST.items():
 
-                option_id = request.POST[k]  # option-NUMBER   is the k
-                question_id = k.split('-')[-1]  # option-NUMBER  Number is the question ID
+                if k.startswith('option'):  # Checks that a minimun of a Option exists
+                    option_id = request.POST[k]  # option-NUMBER   is the k
+                    if len(option_id) > 0:
+                        question_id = k.split('-')[-1]  # option-NUMBER  Number is the question ID
 
-                answer_data = {'submission': submission.id,
-                               'option': Option.objects.get(id=option_id),
-                               'question': Question.objects.get(id=question_id)}
-                form_ans = AnswerForm(answer_data)
-                if form_ans.is_valid():
-                    form_ans.save()
-                else:
-                    print(form_ans.errors)
-                    messages.error(request, 'We had a unexpected error')
+                        answer_data = {'submission': submission.id,
+                                       'option': Option.objects.get(id=option_id),
+                                       'question': Question.objects.get(id=question_id)}
+                        form_ans = AnswerForm(answer_data)
+                        if form_ans.is_valid():
+                            form_ans.save()
+                            messages.success(request, 'Submission Submited')
+                        else:
+                            print(form_ans.errors)
+                            messages.error(request, 'We had a unexpected error')
+                    else:
+                        messages.error(request, 'Invalid Submission, option value error')
         else:
-            messages.success(request, 'Survey submitted')
-            return redirect('survey', survey_id=survey_id)
+            messages.error(request, 'Invalid Submission!')
 
     context['form'] = question_answering
     return render(request, template_name='survey/survey_start.html', context=context)
@@ -129,6 +133,12 @@ def start_survey(request, survey_id):
 @require_http_methods(['GET'])
 @login_required
 def survey_stats(request, survey_id):
+    '''
+    This view gets the ammount of Answer's for a Survey and sends the data of the Options selected to be rendered
+    with ChatJS
+
+    final_data -> takes the form of {QUESTION:[[LIST_OPTIONS_NUMBERS], [LIST_OPTIONS_NAMES]]}
+    '''
     submission_data = Answer.objects.filter(
         submission__survey_id=survey_id).values(
         'question__question', 'option__option').annotate(

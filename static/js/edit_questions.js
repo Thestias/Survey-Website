@@ -36,14 +36,22 @@ window.onload = function () {
     form.querySelector('#question-remove').addEventListener('click', function () {
         let question_forms = document.querySelectorAll('.question-wrapper')
         if (question_forms.length != 1) {
-            question_forms[question_forms.length - 1].remove()
-            document.querySelector('#id_question_set-TOTAL_FORMS').setAttribute('value', document.querySelectorAll('.question-wrapper').length)
+            let delete_question = question_forms[question_forms.length - 1].querySelector('input').getAttribute('id')
+            delete_question = delete_question.replaceAll('-question', '-DELETE')
+            document.querySelector('#' + delete_question).checked = true
+            question_forms[question_forms.length - 1].className = 'hidden'
         }
     })
 
     form.querySelectorAll('#option-add').forEach(function (e) {
         e.addEventListener('click', function () {
             add_option(e)
+        })
+    })
+
+    form.querySelectorAll('#option-remove').forEach(function (e) {
+        e.addEventListener('click', function () {
+            remove_option(e)
         })
     })
 
@@ -103,5 +111,23 @@ window.onload = function () {
         option_clicked_element.insertAdjacentElement('beforebegin', empty_option)
     }
 
+    function remove_option(option_clicked_element) {
+        /*
+        * This function MARKS the DELETE checkbox of the OPTION's TRUE so they can be deleted
+        */
+        let option = option_clicked_element.parentNode.querySelectorAll('.option')
 
+        if (option.length != 1) {
+            let option_id_attr = option[option.length - 1].querySelector('input').getAttribute('id')
+
+            // These Check the corresponding DELETE input TRUE
+            let option_delete = option_id_attr.split('-')
+            option_delete[option_delete.length - 1] = 'DELETE'
+            option_delete = option_delete.join('-')
+            option_clicked_element.parentNode.querySelector('#' + option_delete).checked = true
+
+            // These make changes to the OPTION class
+            option[option.length - 1].className = 'hidden'
+        }
+    }
 }

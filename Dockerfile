@@ -21,12 +21,6 @@ RUN pip install -r requeriments.txt
 # copy project
 COPY . .
 
-# collect static files
-RUN python manage.py collectstatic --settings=SurveyWebsite.settings.prod --noinput
-
 # add and run as non-root user
 RUN adduser -D surveyU
 USER surveyU
-
-# run gunicorn
-CMD gunicorn --env DJANGO_SETTINGS_MODULE=SurveyWebsite.settings.prod SurveyWebsite.wsgi:application --bind 0.0.0.0:$PORT

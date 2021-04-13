@@ -1,10 +1,5 @@
 from .base import *
 import dj_database_url
-from dotenv import load_dotenv
-
-# Loading Dot-Enviroment Variables
-dotenv_path = os.path.join(os.path.dirname(BASE_DIR), '.env')
-load_dotenv(dotenv_path)
 
 # SECURITY WARNING: keep the secret key used in production secret!
 

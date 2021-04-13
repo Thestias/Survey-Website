@@ -3,7 +3,3 @@ build:
     web: Dockerfile
 run:
   web: gunicorn --env DJANGO_SETTINGS_MODULE=SurveyWebsite.settings.prod SurveyWebsite.wsgi:application --bind 0.0.0.0:$PORT
-# release:
-#   image: web
-#   command: 
-#     - python manage.py collectstatic --settings=SurveyWebsite.settings.prod --noinput

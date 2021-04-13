@@ -4,6 +4,7 @@ build:
 run:
   web: gunicorn --env DJANGO_SETTINGS_MODULE=SurveyWebsite.settings.prod SurveyWebsite.wsgi:application --bind 0.0.0.0:$PORT
 release:
+  image: web
   command:
     - python manage.py --settings=SurveyWebsite.settings.prod makemigrations
     - python manage.py --settings=SurveyWebsite.settings.prod migrate

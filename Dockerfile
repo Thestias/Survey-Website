@@ -12,7 +12,7 @@ ENV DEBUG 0
 # install psycopg2
 RUN apk update \
     && apk add --virtual build-deps gcc python3-dev musl-dev \
-    && apk del build-deps
+    && apk del build-deps \
     && apk add postgresql-dev \
     && pip install psycopg2
 

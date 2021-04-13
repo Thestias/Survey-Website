@@ -1,9 +1,10 @@
 from .base import *
 import dj_database_url
+from django.core.management.utils import get_random_secret_key
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', default=get_random_secret_key())
 DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1', 'whispering-island-88200.herokuapp.com/', '.herokuapp.com']

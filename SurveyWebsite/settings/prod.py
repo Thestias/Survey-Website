@@ -6,7 +6,7 @@ import dj_database_url
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'whispering-island-88200.herokuapp.com/', '.heroku.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'whispering-island-88200.herokuapp.com/', '.herokuapp.com']
 
 
 # Serving Static Files

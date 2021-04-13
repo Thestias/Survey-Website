@@ -21,6 +21,8 @@ RUN pip install -r requeriments.txt
 # copy project
 COPY . .
 
+RUN python manage.py collectstatic --settings=SurveyWebsite.settings.prod --noinput
+
 # add and run as non-root user
 RUN adduser -D surveyU
 USER surveyU

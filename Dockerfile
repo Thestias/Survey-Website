@@ -7,7 +7,6 @@ WORKDIR /usr/src/app
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-ENV DEBUG 0
 
 # install psycopg2
 RUN apk update \
@@ -23,7 +22,7 @@ RUN pip install -r requeriments.txt
 # copy project
 COPY . .
 
-RUN python manage.py collectstatic --settings=SurveyWebsite.settings.prod --noinput
+RUN python manage.py collectstatic --noinput
 
 # add and run as non-root user
 RUN adduser -D surveyU

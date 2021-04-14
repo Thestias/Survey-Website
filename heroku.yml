@@ -2,4 +2,4 @@ build:
   docker:
     web: Dockerfile
 run:
-  web: gunicorn --env DJANGO_SETTINGS_MODULE=SurveyWebsite.settings.prod SurveyWebsite.wsgi:application --bind 0.0.0.0:$PORT
+  web: gunicorn SurveyWebsite.wsgi:application --bind 0.0.0.0:$PORT

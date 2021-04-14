@@ -3,7 +3,7 @@ from .base import *
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'whispering-island-88200.herokuapp.com', '.herokuapp.com']
 
-DEBUG = True
+DEBUG = False
 
 # Serving Static Files
 

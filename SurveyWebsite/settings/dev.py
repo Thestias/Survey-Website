@@ -1,14 +1,9 @@
 from .base import *
-from dotenv import load_dotenv, find_dotenv
 
-dotenv_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), '.env')
-load_dotenv(dotenv_path)
 # SECURITY WARNING: don't run with debug turned on in production!
-SECRET_KEY = 'vp-$4%k$&^lvw0ls5be4wa-=$s%nsp##$kan+b3epla95q!y3)'
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['127.0.0.1']
 # EMAIL SETTINGS
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

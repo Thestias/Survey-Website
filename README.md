@@ -1,7 +1,7 @@
 ## Survey Website
 
 
-This is a simple site meant to make simple surveys
+This is a simple site meant to make simple surveys, ready to deploy to Heroku with Docker!
 
 
 ## Built with:
@@ -10,6 +10,8 @@ This is a simple site meant to make simple surveys
 + Django
 + Javascript
 + ChartJS
++ Docker
++ TailwindCSS
 
 ## Screnshots
 

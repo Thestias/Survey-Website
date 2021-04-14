@@ -7,7 +7,6 @@ WORKDIR /usr/src/app
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-ENV DJANGO_SETTINGS_MODULE SurveyWebsite.settings.prod
 
 # install psycopg2
 RUN apk update \
@@ -22,8 +21,6 @@ RUN pip install -r requeriments.txt
 
 # copy project
 COPY . .
-
-RUN python manage.py collectstatic --noinput
 
 # add and run as non-root user
 RUN adduser -D surveyU

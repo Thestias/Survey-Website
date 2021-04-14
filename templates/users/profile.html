@@ -4,7 +4,7 @@
 {% block content_1 %}
 <article class="bg-purple-50 bg-opacity-75 min-h-screen">
     {% include 'navbar.html' %}
-    <section id="article-wrapper" class="bg-white w-screen md:w-3/5 lg:w-4/5 mx-auto shadow-xl md:p-12 mt-8">
+    <section id="article-wrapper" class="bg-white w-screen md:w-screen lg:w-5/6 mx-auto shadow-xl md:p-12 mt-8">
         
         <div class="grid grid-cols-2">
             <h1 class="grid-start-1 ml-16 mt-4 custom_label_text_one md:text-4xl">Welcome <br>to your profile!</h1>
@@ -22,23 +22,23 @@
         <section class="grid grid-flow-row gap-4 bg-purple-100 p-4 border rounded">
             {% if user_surveys %}
                 <div class="grid grid-flow-col grid-cols-6 text-xl font-mono font-bold text-purple-700">
-                    <div class="bg-purple-50 p-4 border rounded text-center">Active</div>
-                    <div class="bg-purple-50 p-4 border rounded col-span-4">Survey title</div>
-                    <div class="bg-purple-50 p-4 border rounded text-lg truncate">Submissions</div>
+                    <div class="hidden md:block bg-purple-50 p-4 border rounded text-center">Active</div>
+                    <div class="bg-purple-50 p-4 border rounded col-span-6 md:col-span-4 text-center">Survey title</div>
+                    <div class="hidden md:block bg-purple-50 p-4 border rounded text-lg truncate">Submissions</div>
                 </div>
 
                 {% for survey in user_surveys %}
                     <div class="grid grid-flow-col grid-cols-6 text-xl font-mono font-bold text-purple-700">
-                        <div class="bg-purple-50 p-4 border rounded text-center">
+                        <div class="hidden md:block bg-purple-50 p-4 border rounded text-center">
                             <form method="POST" class="m-0 p-0">
                                 {% csrf_token %}
                                 <button class="custom_button_one custom_button_one_purple" type="submit" name="delete-survey" value="{{survey.id}}">Delete</button>
                             </form>
                         </div>
-                        <div class="bg-purple-50 p-6 text-2xl truncate text-center border rounded col-span-4">
+                        <div class="bg-purple-50 p-6 text-2xl truncate text-center border rounded col-span-6 md:col-span-4">
                             <a href="{% url 'survey' survey_id=survey.id %}" class="hover:text-purple-500 hover:underline">{{survey.title}}</a>
                         </div>
-                        <div class="bg-purple-50 p-4 border rounded text-center">
+                        <div class="hidden md:block bg-purple-50 p-4 border rounded text-center">
                             <button class="custom_button_one custom_button_one_purple">
                                 <a href="{% url 'survey_stats' survey_id=survey.id %}">Stats</a>
                             </button>

@@ -1,14 +1,14 @@
 
 <!-- THIS NAVBAR IS ONLY FOR LOGGED USERS! -->
 
-<nav class="flex items-center w-screen h-12 bg-purple-500">
-    <div class="w-2/4 flex items-center h-12 bg-purple-500">
-        <div class="text-lg md:text-2xl font-mono font-bold text-white ml-4">
+<nav class="flex items-center w-screen h-12 bg-purple-500 font-mono font-bold text-white">
+    <div class="hidden md:block w-2/4 flex items-center">
+        <div class="text-lg md:text-2xl ml-4">
             <p>Welcome {{request.user}}!</p>
         </div>
     </div>
-    <div class="w-2/4 flex flex-row-reverse items-center h-12 bg-purple-500">
-        <div class="text-xl md:text-lg font-mono font-bold text-white">
+    <div class="w-full md:w-2/4 flex flex-row-reverse items-center text-center">
+        <div class="text-xl md:text-lg sm:text-sm">
             {% if request.user.is_authenticated %}
                 <a href="{% url 'profile' %}">Profile</a>
                 <a href="#" class="mx-8">Settings</a>

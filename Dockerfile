@@ -15,8 +15,8 @@ RUN apk update \
     && apk del build-deps
 
 # install dependencies
-COPY ./requirements.txt .
-RUN pip install -r requirements.txt
+COPY ./requeriments.txt .
+RUN pip install -r requeriments.txt
 
 # copy project
 COPY . .
